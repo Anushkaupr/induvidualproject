@@ -10,6 +10,7 @@ const sequelize = new Sequelize(
     dialect: "postgres",
     logging: console.log, // logs all queries for debugging
     port: process.env.DB_PORT || 5432,
+  
   }
 );
 

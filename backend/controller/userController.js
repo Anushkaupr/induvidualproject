@@ -3,23 +3,23 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // ================= REGISTER =================
+// userController.js (Selected parts)
+
+// ================= REGISTER =================
 exports.register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, dob } = req.body; // Extract dob
 
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !dob) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "All fields, including Date of Birth, are required",
       });
     }
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "Email already exists",
-      });
+      return res.status(400).json({ success: false, message: "Email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -28,6 +28,7 @@ exports.register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      dob, // <--- Save DOB
       role: "user",
     });
 
@@ -38,19 +39,40 @@ exports.register = async (req, res) => {
         id: newUser.id,
         username: newUser.username,
         email: newUser.email,
+        dob: newUser.dob, // <--- Return DOB
         role: newUser.role,
       },
     });
   } catch (error) {
-    console.error("Register error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: error.message,
-    });
+    /* ... error handling ... */
   }
 };
 
+// ================= UPDATE USER BY ID =================
+exports.updateUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username, email, password, dob } = req.body; // Extract dob
+
+    const user = await User.findByPk(id);
+    if (!user) { /* ... handle not found ... */ }
+
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : user.password;
+
+    await user.update({
+      username: username || user.username,
+      email: email || user.email,
+      password: hashedPassword,
+      dob: dob || user.dob, // <--- Update DOB
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user: { id: user.id, username: user.username, email: user.email, dob: user.dob },
+    });
+  } catch (error) { /* ... error handling ... */ }
+};
 // ================= LOGIN =================
 exports.login = async (req, res) => {
   try {
@@ -154,7 +176,49 @@ exports.getUserById = async (req, res) => {
     });
   }
 };
+// ================= RESET PASSWORD VIA DOB =================
+exports.resetPasswordWithDOB = async (req, res) => {
+  try {
+    const { email, dob, newPassword } = req.body;
 
+    // 1. Validate input
+    if (!email || !dob || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, Date of Birth, and New Password are required",
+      });
+    }
+
+    // 2. Find user by email
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // 3. Compare DOB (Sequelize DATEONLY matches 'YYYY-MM-DD')
+    if (user.dob !== dob) {
+      return res.status(401).json({
+        success: false,
+        message: "Security check failed: Date of Birth does not match",
+      });
+    }
+
+    // 4. Hash new password and update
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.update({ password: hashedPassword });
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successfully! You can now login.",
+    });
+  } catch (error) {
+    console.error("Reset Password Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 // ================= UPDATE USER BY ID =================
 exports.updateUserById = async (req, res) => {
   try {

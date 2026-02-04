@@ -9,6 +9,7 @@ const {
   updateUserById,
   deleteUserById,
   getMe,
+  resetPasswordWithDOB,
 } = require("../controller/userController");
  
 const authGuard = require("../helpers/authGuard");
@@ -17,6 +18,7 @@ const isAdmin = require("../helpers/isAdmin");
 // Auth routes
 router.post("/register", register);
 router.post("/login", login);
+router.post("/reset-password-dob", resetPasswordWithDOB);
  
 // User CRUD routes
 router.get("/getAllUser", authGuard, isAdmin, getAllUser);
