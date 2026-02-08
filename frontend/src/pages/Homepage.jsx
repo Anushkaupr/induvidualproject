@@ -22,7 +22,7 @@ export default function Homepage() {
       position: "absolute",
       top: "20px",
       right: "30px",
-      width: "130px",       // adjust size if needed
+      width: "90px",       // adjust size if needed
       height: "auto",
       cursor: "pointer",
       zIndex: 10,
@@ -30,7 +30,7 @@ export default function Homepage() {
     },
 
     frame: {
-      backgroundColor: "rgba(192, 192, 192, 0.6)",
+      backgroundColor: "rgba(192, 192, 192, 0.7)",
       padding: "20px 50px",
       borderRadius: "25px",
       textAlign: "center",
