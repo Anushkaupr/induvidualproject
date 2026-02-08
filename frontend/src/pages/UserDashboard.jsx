@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
-// Translation dictionary
+import { useNavigate } from "react-router-dom";
+
+// --- 1. TRANSLATION DICTIONARY ---
 const translations = {
   english: {
     dashboard: "Dashboard",
@@ -11,43 +11,24 @@ const translations = {
     settings: "Settings",
     logout: "Logout",
     totalBalance: "Total Available Balance",
-    quickUpdate: "Quick Update",
-    amountPlaceholder: "Amount (e.g. 50)",
-    income: "Income (+)",
-    expenseType: "Expense (-)",
-    updateBalance: "Update Balance",
-    moneyFlow: "Money Flow Analysis",
-    salary: "Salary",
-    primarySource: "Primary Source",
-    dividends: "Dividends",
-    passive: "Passive",
-    housing: "Housing",
-    fixedExpense: "Fixed Expense",
-    lifestyle: "Lifestyle",
-    variable: "Variable",
-    selectLanguage: "Select Language:",
-    currentLanguage: "Current Language",
-    createIncome: "Add Income",
-incomeField: "Income Source",
-incomeAmount: "Amount",
-noIncome: "No income added yet",
-
-    createSaving: "Create Saving",
+    incomePlaceholder: "e.g. 50000",
+    incomeLabel: "Enter your starting monthly income",
+    recentSavings: "Recent Savings",
+    recentExpenses: "Recent Expenses",
     savingField: "Saving Field",
     savingAmount: "Amount",
+    expenseField: "Expense Field",
+    expenseAmount: "Amount",
+    createSaving: "Create Saving",
+    createExpense: "Add Expense",
+    noData: "No records found",
+    actions: "Actions",
     edit: "Edit",
     delete: "Delete",
-    noSavings: "No savings created yet",
-      createExpense: "Add Expense",
-      expenses: "Expenses",
-  expenseField: "Expense Field",
-  expenseAmount: "Amount",
-  actions: "Actions",
-  create: "Create",
-  noExpenses: "No expenses  yet", 
+    selectLanguage: "Select Language:",
     selectTheme: "Select Theme:",
     light: "Light",
-    dark: "Dark",
+    dark: "Dark"
   },
   nepali: {
     dashboard: "ड्यासबोर्ड",
@@ -56,114 +37,45 @@ noIncome: "No income added yet",
     settings: "सेटिङ्स",
     logout: "लगआउट",
     totalBalance: "कुल उपलब्ध ब्यालेन्स",
-    quickUpdate: "छिटो अपडेट",
-    amountPlaceholder: "रकम (जस्तै ५०)",
-    income: "आय (+)",
-    expenseType: "खर्च (-)",
-    updateBalance: "ब्यालेन्स अपडेट गर्नुहोस्",
-    moneyFlow: "पैसाको प्रवाह विश्लेषण",
-    salary: "तलब",
-    primarySource: "मुख्य स्रोत",
-    dividends: "डिभिडेन्ड्स",
-    passive: "निष्क्रिय",
-    housing: "आवास",
-    fixedExpense: "स्थिर खर्च",
-    lifestyle: "जीवनशैली",
-    variable: "परिवर्तनीय",
-    selectLanguage: "भाषा चयन गर्नुहोस्:",
-    currentLanguage: "वर्तमान भाषा",
-    createIncome: "आय थप्नुहोस्",
-incomeField: "आयको स्रोत",
-incomeAmount: "रकम",
-noIncome: "अहिलेसम्म कुनै आय छैन",
-
-    createSaving: "बचत सिर्जना गर्नुहोस्",
+    incomePlaceholder: "उदा: ५००००",
+    incomeLabel: "आफ्नो सुरुवाती मासिक आम्दानी लेख्नुहोस्",
+    recentSavings: "हालैका बचतहरू",
+    recentExpenses: "हालैका खर्चहरू",
     savingField: "बचतको विषय",
     savingAmount: "रकम",
-    edit: "संपादन गर्नुहोस्",
-    delete: "मेटाउनुहोस्",
-    noSavings: "अहिलेसम्म कुनै बचत छैन",
+    expenseField: "खर्चको शीर्षक",
+    expenseAmount: "रकम",
+    createSaving: "बचत थप्नुहोस्",
     createExpense: "खर्च थप्नुहोस्",
-     expenses: "खर्चहरू",
-  expenseField: "खर्चको शीर्षक",
-  expenseAmount: "रकम",
-  actions: "कार्यहरू",
-  create: "सिर्जना गर्नुहोस्",
-  noExpenses: "अहिलेसम्म कुनै खर्च छैन",
-
+    noData: "कुनै रेकर्ड भेटिएन",
+    actions: "कार्यहरू",
+    edit: "संपादन",
+    delete: "मेटाउनुहोस्",
+    selectLanguage: "भाषा चयन गर्नुहोस्:",
     selectTheme: "थिम चयन गर्नुहोस्:",
     light: "हल्का",
-    dark: "गाढा",
+    dark: "गाढा"
   },
 };
 
-// Settings component
+// --- 2. INTERNAL COMPONENTS ---
+
 function Settings({ language, setLanguage, theme, setTheme }) {
   return (
     <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-      <h2 className="text-2xl font-bold mb-6 text-slate-900 dark:text-slate-100">
-        {translations[language].settings}
-      </h2>
-
-      {/* Language */}
+      <h2 className="text-2xl font-bold mb-6">{translations[language].settings}</h2>
       <div className="mb-6">
-        <p className="text-slate-700 dark:text-slate-200 font-medium mb-2">
-          {translations[language].selectLanguage}
-        </p>
+        <p className="font-medium mb-2">{translations[language].selectLanguage}</p>
         <div className="flex gap-4">
-          <button
-            className={`px-4 py-2 rounded-xl border font-medium transition ${
-              language === "english"
-                ? "bg-indigo-600 text-white border-indigo-600"
-                : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-indigo-50"
-            }`}
-            onClick={() => setLanguage("english")}
-          >
-            English
-          </button>
-          <button
-            className={`px-4 py-2 rounded-xl border font-medium transition ${
-              language === "nepali"
-                ? "bg-indigo-600 text-white border-indigo-600"
-                : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-indigo-50"
-            }`}
-            onClick={() => setLanguage("nepali")}
-          >
-            नेपाली
-          </button>
+          <button onClick={() => setLanguage("english")} className={`px-4 py-2 rounded-xl border transition ${language === "english" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>English</button>
+          <button onClick={() => setLanguage("nepali")} className={`px-4 py-2 rounded-xl border transition ${language === "nepali" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>नेपाली</button>
         </div>
-        <p className="text-slate-500 dark:text-slate-400 mt-4">
-          {translations[language].currentLanguage}:{" "}
-          <span className="font-bold">{language === "english" ? "English" : "Nepali"}</span>
-        </p>
       </div>
-
-      {/* Theme */}
       <div>
-        <p className="text-slate-700 dark:text-slate-200 font-medium mb-2">
-          {translations[language].selectTheme}
-        </p>
+        <p className="font-medium mb-2">{translations[language].selectTheme}</p>
         <div className="flex gap-4">
-          <button
-            className={`px-4 py-2 rounded-xl border font-medium transition ${
-              theme === "light"
-                ? "bg-indigo-600 text-white border-indigo-600"
-                : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-indigo-50"
-            }`}
-            onClick={() => setTheme("light")}
-          >
-            {translations[language].light}
-          </button>
-          <button
-            className={`px-4 py-2 rounded-xl border font-medium transition ${
-              theme === "dark"
-                ? "bg-indigo-600 text-white border-indigo-600"
-                : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-indigo-50"
-            }`}
-            onClick={() => setTheme("dark")}
-          >
-            {translations[language].dark}
-          </button>
+          <button onClick={() => setTheme("light")} className={`px-4 py-2 rounded-xl border transition ${theme === "light" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>{translations[language].light}</button>
+          <button onClick={() => setTheme("dark")} className={`px-4 py-2 rounded-xl border transition ${theme === "dark" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>{translations[language].dark}</button>
         </div>
       </div>
     </div>
@@ -601,220 +513,193 @@ function Expense({ language }) {
 }
 
 
-// Main Dashboard
+// --- 3. MAIN DASHBOARD ---
+
 export default function UserDashboard() {
-  
-  const [currentBalance, setCurrentBalance] = useState(12450.8);
-  const [amount, setAmount] = useState("");
-  const [type, setType] = useState("income");
   const [activePage, setActivePage] = useState("dashboard");
   const [language, setLanguage] = useState("english");
   const [theme, setTheme] = useState("light");
-  
+  const [typedIncome, setTypedIncome] = useState(""); 
+  const [savingsList, setSavingsList] = useState([]);
+  const [expensesList, setExpensesList] = useState([]);
 
-  const user = { name: "John Doe", initials: "JD", email: "john@example.com" };
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // 🔴 LOGOUT FUNCTION
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    toast.success("Logged out successfully");
     navigate("/login");
   };
-  
-  
-  
 
-  const updateFinance = () => {
-    const amt = parseFloat(amount);
-    if (isNaN(amt) || amt <= 0) return alert("Please enter a valid amount");
-    const newBalance = type === "income" ? currentBalance + amt : currentBalance - amt;
-    setCurrentBalance(newBalance);
-    setAmount("");
+  const fetchDashboardData = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      const [savRes, expRes] = await Promise.all([
+        fetch("http://localhost:3000/api/savings", { headers }),
+        fetch("http://localhost:3000/api/expenses", { headers })
+      ]);
+      const savData = await savRes.json();
+      const expData = await expRes.json();
+      if (savData.success) setSavingsList(savData.data);
+      if (expData.success) setExpensesList(expData.data);
+    } catch (err) { console.error(err); }
   };
-  
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+    fetchDashboardData();
+  }, [activePage]);
+
+  const totalSavings = savingsList.reduce((acc, curr) => acc + Number(curr.amount), 0);
+  const totalExpenses = expensesList.reduce((acc, curr) => acc + Number(curr.amount), 0);
+  const liveIncomeDisplay = (Number(typedIncome) || 0) + totalSavings - totalExpenses;
+
+  const NavItem = ({ id, label, icon }) => (
+    <button
+      onClick={() => setActivePage(id)}
+      className={`w-full flex items-center gap-3 px-6 py-4 transition-all duration-200 ${
+        activePage === id ? "bg-indigo-600 text-white shadow-lg" : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+      }`}
+    >
+      <i className={`fas ${icon} w-5`}></i>
+      <span className="font-semibold">{label}</span>
+    </button>
+  );
 
   return (
-    <div className={`flex min-h-screen font-sans ${theme === "light" ? "bg-slate-50 text-slate-900" : "bg-slate-900 text-slate-100"}`}>
-      {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col justify-between p-6">
-        <div>
-          <h1 className="text-2xl font-bold text-indigo-600 flex items-center gap-2 mb-8">
-            <i className="fas fa-wallet"></i> Moneymate
-          </h1>
-          <nav className="space-y-4">
-            <button
-              onClick={() => setActivePage("dashboard")}
-              className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-700 transition font-medium"
-            >
-              <i className="fas fa-home"></i> {translations[language].dashboard}
-            </button>
-            <button
-              onClick={() => setActivePage("savings")}
-              className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-700 transition font-medium"
-            >
-              <i className="fas fa-piggy-bank"></i> {translations[language].savings}
-            </button>
-            <button
-              onClick={() => setActivePage("expense")}
-              className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-700 transition font-medium"
-            >
-              <i className="fas fa-money-bill-wave"></i> {translations[language].expense}
-            </button>
-            <button
-              onClick={() => setActivePage("settings")}
-              className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-700 transition font-medium"
-            >
-              <i className="fas fa-cog"></i> {translations[language].settings}
-            </button>
-          </nav>
+    <div className={`flex min-h-screen ${theme === "dark" ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-900"}`}>
+      
+      {/* SIDEBAR */}
+      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-10">
+        <div className="p-8 flex items-center gap-3">
+          <img 
+            src="/logo.png" 
+            alt="Logo" 
+            className="w-10 h-10 object-contain" 
+            onError={(e) => { e.target.style.display = 'none'; }} 
+          />
+          <div className="text-2xl font-black text-indigo-600 tracking-tighter uppercase">MONEYMATE</div>
         </div>
-         <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-        >
-          Logout
-        </button>
+        
+        <nav className="flex-1 mt-4">
+          <NavItem id="dashboard" label={translations[language].dashboard} icon="fa-th-large" />
+          <NavItem id="savings" label={translations[language].savings} icon="fa-piggy-bank" />
+          <NavItem id="expense" label={translations[language].expense} icon="fa-wallet" />
+          <NavItem id="settings" label={translations[language].settings} icon="fa-cog" />
+        </nav>
+        
+        <div className="p-6 border-t dark:border-slate-800">
+           <button onClick={handleLogout} className="w-full bg-red-50 py-3 rounded-xl text-red-600 font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">
+             <i className="fas fa-sign-out-alt"></i>
+             {translations[language].logout}
+           </button>
+        </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
-        {/* Top Bar */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-3xl font-bold capitalize">{activePage}</h2>
+      {/* MAIN CONTENT */}
+      <main className="flex-1 ml-64 p-8 overflow-y-auto">
+        <header className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold uppercase tracking-wide">{translations[language][activePage]}</h1>
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">U</div>
+             <span className="font-medium">User</span>
           </div>
-          {/* Profile Section */}
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="font-medium">{user.name}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{user.email}</p>
-            </div>
-            <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-700 rounded-full flex items-center justify-center text-indigo-700 dark:text-white font-bold">
-              {user.initials}
-            </div>
-          </div>
-        </div>
+        </header>
 
-        {/* Dashboard content inserted here */}
         {activePage === "dashboard" && (
-          <div>
-            {/* Balance & Quick Update */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-              <div className="lg:col-span-2 bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col justify-center">
-                <span className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider text-sm">
-                  {translations[language].totalBalance}
-                </span>
-                <div className="flex items-baseline gap-2 mt-2">
-                  <h3 className="text-5xl font-black text-slate-900 dark:text-slate-100 leading-tight balance-glow">
-                    ${currentBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </h3>
-                  <span className="text-green-500 font-bold"><i className="fas fa-caret-up"></i> 12%</span>
-                </div>
-              </div>
-
-              {/* Quick Update */}
-              <div className="bg-indigo-600 p-6 rounded-3xl shadow-lg text-white">
-                <h4 className="font-bold mb-4">{translations[language].quickUpdate}</h4>
-                <div className="space-y-3">
-                  <input
-                    type="number"
-                    placeholder={translations[language].amountPlaceholder}
-                    className="w-full p-3 rounded-xl border-none text-slate-900 outline-none"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                  />
-                  <select
-                    className="w-full p-3 rounded-xl border-none text-slate-900 outline-none"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    <option value="income">{translations[language].income}</option>
-                    <option value="expense">{translations[language].expenseType}</option>
-                  </select>
-                  <button
-                    onClick={updateFinance}
-                    className="w-full bg-white text-indigo-600 font-bold py-3 rounded-xl hover:bg-indigo-50 transition"
-                  >
-                    {translations[language].updateBalance}
-                  </button>
-                </div>
-              </div>
+          <div className="max-w-6xl mx-auto space-y-8">
+            
+            {/* 1. INCOME INPUT SECTION */}
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-4">
+               <div>
+                  <h4 className="font-bold text-indigo-600 text-sm uppercase">{translations[language].incomeLabel}</h4>
+                  <p className="text-xs text-slate-400">Set your starting monthly balance</p>
+               </div>
+               <div className="relative w-full md:w-64">
+                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rs.</span>
+                 <input 
+                  type="number" 
+                  placeholder={translations[language].incomePlaceholder}
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-slate-100 dark:bg-slate-900 dark:border-slate-700 outline-none focus:border-indigo-500 transition font-bold"
+                  value={typedIncome}
+                  onChange={(e) => setTypedIncome(e.target.value)}
+                />
+               </div>
             </div>
 
-            {/* Money Flow Analysis */}
-            <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 mb-8">
-              <h4 className="font-bold text-lg mb-6">{translations[language].moneyFlow}</h4>
-              <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                <div className="w-full md:w-1/3 space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900 rounded-2xl border border-green-100 dark:border-green-700 flow-card">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white"><i className="fas fa-briefcase"></i></div>
-                      <div>
-                        <p className="text-sm font-bold">{translations[language].salary}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{translations[language].primarySource}</p>
-                      </div>
+            {/* 2. TOTAL BALANCE CARD */}
+            <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-10 text-white shadow-xl relative overflow-hidden">
+                <div className="relative z-10">
+                  <h2 className="text-sm uppercase tracking-widest opacity-80 font-bold">{translations[language].totalBalance}</h2>
+                  <h1 className="text-6xl font-black mt-2">Rs. {liveIncomeDisplay.toLocaleString()}</h1>
+                  <div className="flex flex-wrap gap-4 mt-8">
+                    <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20">
+                      <p className="text-[10px] uppercase opacity-60">Base Income</p>
+                      <p className="font-bold">{Number(typedIncome || 0).toLocaleString()}</p>
                     </div>
-                    <span className="font-bold text-green-600">+Rs.8,000</span>
-                  </div>
-                  <div className="flex items-center justify-between p-4 bg-emerald-50 dark:bg-emerald-900 rounded-2xl border border-emerald-100 dark:border-emerald-700 flow-card">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white"><i className="fas fa-chart-line"></i></div>
-                      <div>
-                        <p className="text-sm font-bold">{translations[language].dividends}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{translations[language].passive}</p>
-                      </div>
+                    <div className="bg-green-400/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-green-400/20">
+                      <p className="text-[10px] uppercase opacity-60">Total Savings</p>
+                      <p className="font-bold">+{totalSavings.toLocaleString()}</p>
                     </div>
-                    <span className="font-bold text-emerald-600">+Rs.450</span>
+                    <div className="bg-red-400/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-red-400/20">
+                      <p className="text-[10px] uppercase opacity-60">Total Expenses</p>
+                      <p className="font-bold">-{totalExpenses.toLocaleString()}</p>
+                    </div>
                   </div>
                 </div>
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+            </div>
 
-                {/* Net Flow */}
-                <div className="hidden md:flex flex-1 flex-col items-center">
-                  <div className="w-full h-1 bg-gradient-to-r from-green-400 via-indigo-400 to-red-400 rounded-full relative">
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 px-4 py-1 border rounded-full text-xs font-bold shadow-sm">NET FLOW</div>
-                  </div>
-                </div>
-
-                <div className="w-full md:w-1/3 space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-900 rounded-2xl border border-red-100 dark:border-red-700 flow-card">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white"><i className="fas fa-home"></i></div>
+            {/* 3. ACTIVITY LISTS */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              
+              {/* Recent Savings */}
+              <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border dark:border-slate-700">
+                <h3 className="font-bold text-lg flex items-center gap-2 mb-6">
+                  <span className="p-2 bg-green-100 text-green-600 rounded-lg text-xs"><i className="fas fa-arrow-up"></i></span>
+                  {translations[language].recentSavings}
+                </h3>
+                <div className="space-y-4">
+                  {savingsList.length > 0 ? savingsList.slice(0, 5).map((s) => (
+                    <div key={s.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
                       <div>
-                        <p className="text-sm font-bold">{translations[language].housing}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{translations[language].fixedExpense}</p>
+                        <p className="font-bold text-slate-700 dark:text-slate-200">{s.description}</p>
+                        <p className="text-[10px] text-slate-400">Entry Saved</p>
                       </div>
+                      <p className="font-black text-green-600">+ Rs. {Number(s.amount).toLocaleString()}</p>
                     </div>
-                    <span className="font-bold text-red-600">-Rs.2,100</span>
-                  </div>
-                  <div className="flex items-center justify-between p-4 bg-orange-50 dark:bg-orange-900 rounded-2xl border border-orange-100 dark:border-orange-700 flow-card">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white"><i className="fas fa-shopping-cart"></i></div>
-                      <div>
-                        <p className="text-sm font-bold">{translations[language].lifestyle}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{translations[language].variable}</p>
-                      </div>
-                    </div>
-                    <span className="font-bold text-orange-600">-Rs.850</span>
-                  </div>
+                  )) : <p className="text-center py-6 text-slate-400 text-sm italic">{translations[language].noData}</p>}
                 </div>
               </div>
+
+              {/* Recent Expenses */}
+              <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border dark:border-slate-700">
+                <h3 className="font-bold text-lg flex items-center gap-2 mb-6">
+                  <span className="p-2 bg-red-100 text-red-600 rounded-lg text-xs"><i className="fas fa-arrow-down"></i></span>
+                  {translations[language].recentExpenses}
+                </h3>
+                <div className="space-y-4">
+                  {expensesList.length > 0 ? expensesList.slice(0, 5).map((e) => (
+                    <div key={e.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
+                      <div>
+                        <p className="font-bold text-slate-700 dark:text-slate-200">{e.description}</p>
+                        <p className="text-[10px] text-slate-400">Entry Spent</p>
+                      </div>
+                      <p className="font-black text-red-600">- Rs. {Number(e.amount).toLocaleString()}</p>
+                    </div>
+                  )) : <p className="text-center py-6 text-slate-400 text-sm italic">{translations[language].noData}</p>}
+                </div>
+              </div>
+
             </div>
           </div>
         )}
 
-        {activePage === "settings" && (
-          <Settings language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />
-        )}
+        {/* SUB-PAGES */}
         {activePage === "savings" && <Saving language={language} />}
         {activePage === "expense" && <Expense language={language} />}
+        {activePage === "settings" && <Settings language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />}
       </main>
     </div>
-    
   );
 }

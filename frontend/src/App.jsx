@@ -28,7 +28,7 @@ function App() {
        <Route path="/userdashboard" element={
   <ProtectedRoute allowedRoles={['user']} element={<UserDashboard />} />
 } />
-
+          
            <Route path="/forgot-password" element={<ForgotPassword/>} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/homepage" element={<Homepage />} />
