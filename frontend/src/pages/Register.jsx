@@ -127,6 +127,7 @@ export default function Register() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            autoComplete="off"
           />
           <label>Date-of-Birth</label>
           <input
@@ -157,6 +158,7 @@ export default function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="new-password"
             />
             {showPassword ? (
               <FaEyeSlash
