@@ -519,7 +519,7 @@ export default function UserDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
   const [language, setLanguage] = useState("english");
   const [theme, setTheme] = useState("light");
-  const [typedIncome, setTypedIncome] = useState(""); 
+  const [typedIncome, setTypedIncome] = useState("");
   const [savingsList, setSavingsList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
 
@@ -537,13 +537,15 @@ export default function UserDashboard() {
     try {
       const [savRes, expRes] = await Promise.all([
         fetch("http://localhost:3000/api/savings", { headers }),
-        fetch("http://localhost:3000/api/expenses", { headers })
+        fetch("http://localhost:3000/api/expenses", { headers }),
       ]);
       const savData = await savRes.json();
       const expData = await expRes.json();
       if (savData.success) setSavingsList(savData.data);
       if (expData.success) setExpensesList(expData.data);
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -557,12 +559,22 @@ export default function UserDashboard() {
   const NavItem = ({ id, label, icon }) => (
     <button
       onClick={() => setActivePage(id)}
-      className={`w-full flex items-center gap-3 px-6 py-4 transition-all duration-200 ${
-        activePage === id ? "bg-indigo-600 text-white shadow-lg" : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+      className={`w-full flex items-center gap-4 px-6 py-4 transition-all duration-200 border-r-4 ${
+        activePage === id
+          ? "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 border-indigo-600"
+          : "text-slate-500 border-transparent hover:bg-slate-50 dark:hover:bg-slate-800"
       }`}
     >
-      <i className={`fas ${icon} w-5`}></i>
-      <span className="font-semibold">{label}</span>
+      <div
+        className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${
+          activePage === id
+            ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
+            : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+        }`}
+      >
+        <i className={`fas ${icon} text-xs`}></i>
+      </div>
+      <span className="font-bold tracking-tight">{label}</span>
     </button>
   );
 
@@ -572,133 +584,162 @@ export default function UserDashboard() {
       {/* SIDEBAR */}
       <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-10">
         <div className="p-8 flex items-center gap-3">
-          <img 
-            src="/logo.png" 
-            alt="Logo" 
-            className="w-10 h-10 object-contain" 
-            onError={(e) => { e.target.style.display = 'none'; }} 
-          />
-          <div className="text-2xl font-black text-indigo-600 tracking-tighter uppercase">MONEYMATE</div>
+          {/* LOGO IMAGE SECTION */}
+          <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-xl">
+            <img 
+              src="/logo.png" 
+              alt="MoneyMate Logo" 
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src="https://via.placeholder.com/48?text=MM" // Fallback if image missing
+              }}
+            />
+          </div>
+          <div className="text-xl font-black text-slate-800 dark:text-white tracking-tighter uppercase">
+            MONEYMATE
+          </div>
         </div>
-        
-        <nav className="flex-1 mt-4">
-          <NavItem id="dashboard" label={translations[language].dashboard} icon="fa-th-large" />
+
+        <nav className="flex-1 mt-4 space-y-1">
+          <NavItem id="dashboard" label={translations[language].dashboard} icon="fa-chart-pie" />
           <NavItem id="savings" label={translations[language].savings} icon="fa-piggy-bank" />
-          <NavItem id="expense" label={translations[language].expense} icon="fa-wallet" />
+          <NavItem id="expense" label={translations[language].expense} icon="fa-receipt" />
           <NavItem id="settings" label={translations[language].settings} icon="fa-cog" />
         </nav>
-        
+
         <div className="p-6 border-t dark:border-slate-800">
-           <button onClick={handleLogout} className="w-full bg-red-50 py-3 rounded-xl text-red-600 font-bold hover:bg-red-100 transition flex items-center justify-center gap-2">
-             <i className="fas fa-sign-out-alt"></i>
-             {translations[language].logout}
-           </button>
+          <button
+            onClick={handleLogout}
+            className="w-full bg-red-50 dark:bg-red-900/10 py-3 rounded-xl text-red-600 font-bold hover:bg-red-100 transition flex items-center justify-center gap-3"
+          >
+            <i className="fas fa-sign-out-alt"></i>
+            {translations[language].logout}
+          </button>
         </div>
       </aside>
 
       {/* MAIN CONTENT */}
       <main className="flex-1 ml-64 p-8 overflow-y-auto">
         <header className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold uppercase tracking-wide">{translations[language][activePage]}</h1>
+          <h1 className="text-2xl font-bold uppercase tracking-wide">
+            {translations[language][activePage]}
+          </h1>
           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">U</div>
-             <span className="font-medium">User</span>
+            <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-slate-800 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200 dark:border-slate-700">
+              <i className="fas fa-user text-sm"></i>
+            </div>
+            <span className="font-medium">User</span>
           </div>
         </header>
 
         {activePage === "dashboard" && (
           <div className="max-w-6xl mx-auto space-y-8">
-            
-            {/* 1. INCOME INPUT SECTION */}
-            <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-4">
-               <div>
-                  <h4 className="font-bold text-indigo-600 text-sm uppercase">{translations[language].incomeLabel}</h4>
-                  <p className="text-xs text-slate-400">Set your starting monthly balance</p>
-               </div>
-               <div className="relative w-full md:w-64">
-                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rs.</span>
-                 <input 
-                  type="number" 
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 className="font-bold text-indigo-600 text-sm uppercase">
+                  {translations[language].incomeLabel}
+                </h4>
+                <p className="text-xs text-slate-400">Set your starting monthly balance</p>
+              </div>
+              <div className="relative w-full md:w-64">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rs.</span>
+                <input
+                  type="number"
                   placeholder={translations[language].incomePlaceholder}
                   className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-slate-100 dark:bg-slate-900 dark:border-slate-700 outline-none focus:border-indigo-500 transition font-bold"
                   value={typedIncome}
                   onChange={(e) => setTypedIncome(e.target.value)}
                 />
-               </div>
+              </div>
             </div>
 
-            {/* 2. TOTAL BALANCE CARD */}
             <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-10 text-white shadow-xl relative overflow-hidden">
-                <div className="relative z-10">
-                  <h2 className="text-sm uppercase tracking-widest opacity-80 font-bold">{translations[language].totalBalance}</h2>
-                  <h1 className="text-6xl font-black mt-2">Rs. {liveIncomeDisplay.toLocaleString()}</h1>
-                  <div className="flex flex-wrap gap-4 mt-8">
-                    <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20">
-                      <p className="text-[10px] uppercase opacity-60">Base Income</p>
-                      <p className="font-bold">{Number(typedIncome || 0).toLocaleString()}</p>
-                    </div>
-                    <div className="bg-green-400/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-green-400/20">
-                      <p className="text-[10px] uppercase opacity-60">Total Savings</p>
-                      <p className="font-bold">+{totalSavings.toLocaleString()}</p>
-                    </div>
-                    <div className="bg-red-400/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-red-400/20">
-                      <p className="text-[10px] uppercase opacity-60">Total Expenses</p>
-                      <p className="font-bold">-{totalExpenses.toLocaleString()}</p>
-                    </div>
+              <div className="relative z-10">
+                <h2 className="text-sm uppercase tracking-widest opacity-80 font-bold">
+                  {translations[language].totalBalance}
+                </h2>
+                <h1 className="text-6xl font-black mt-2">Rs. {liveIncomeDisplay.toLocaleString()}</h1>
+                <div className="flex flex-wrap gap-4 mt-8">
+                  <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20">
+                    <p className="text-[10px] uppercase opacity-60">Base Income</p>
+                    <p className="font-bold">{Number(typedIncome || 0).toLocaleString()}</p>
+                  </div>
+                  <div className="bg-green-400/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-green-400/20">
+                    <p className="text-[10px] uppercase opacity-60">Total Savings</p>
+                    <p className="font-bold">+{totalSavings.toLocaleString()}</p>
+                  </div>
+                  <div className="bg-red-400/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-red-400/20">
+                    <p className="text-[10px] uppercase opacity-60">Total Expenses</p>
+                    <p className="font-bold">-{totalExpenses.toLocaleString()}</p>
                   </div>
                 </div>
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+              </div>
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
             </div>
 
-            {/* 3. ACTIVITY LISTS */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              
-              {/* Recent Savings */}
-              <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border dark:border-slate-700">
+              <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <h3 className="font-bold text-lg flex items-center gap-2 mb-6">
-                  <span className="p-2 bg-green-100 text-green-600 rounded-lg text-xs"><i className="fas fa-arrow-up"></i></span>
+                  <span className="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-lg text-xs">
+                    <i className="fas fa-arrow-trend-up"></i>
+                  </span>
                   {translations[language].recentSavings}
                 </h3>
                 <div className="space-y-4">
-                  {savingsList.length > 0 ? savingsList.slice(0, 5).map((s) => (
-                    <div key={s.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
-                      <div>
-                        <p className="font-bold text-slate-700 dark:text-slate-200">{s.description}</p>
-                        <p className="text-[10px] text-slate-400">Entry Saved</p>
+                  {savingsList.length > 0 ? (
+                    savingsList.slice(0, 5).map((s) => (
+                      <div key={s.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
+                        <div>
+                          <p className="font-bold text-slate-700 dark:text-slate-200">{s.description}</p>
+                          <p className="text-[10px] text-slate-400 uppercase tracking-tighter font-semibold">Saved</p>
+                        </div>
+                        <p className="font-black text-green-600">+ Rs. {Number(s.amount).toLocaleString()}</p>
                       </div>
-                      <p className="font-black text-green-600">+ Rs. {Number(s.amount).toLocaleString()}</p>
-                    </div>
-                  )) : <p className="text-center py-6 text-slate-400 text-sm italic">{translations[language].noData}</p>}
+                    ))
+                  ) : (
+                    <p className="text-center py-6 text-slate-400 text-sm italic">{translations[language].noData}</p>
+                  )}
                 </div>
               </div>
 
-              {/* Recent Expenses */}
-              <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border dark:border-slate-700">
+              <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
                 <h3 className="font-bold text-lg flex items-center gap-2 mb-6">
-                  <span className="p-2 bg-red-100 text-red-600 rounded-lg text-xs"><i className="fas fa-arrow-down"></i></span>
+                  <span className="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-lg text-xs">
+                    <i className="fas fa-arrow-trend-down"></i>
+                  </span>
                   {translations[language].recentExpenses}
                 </h3>
                 <div className="space-y-4">
-                  {expensesList.length > 0 ? expensesList.slice(0, 5).map((e) => (
-                    <div key={e.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
-                      <div>
-                        <p className="font-bold text-slate-700 dark:text-slate-200">{e.description}</p>
-                        <p className="text-[10px] text-slate-400">Entry Spent</p>
+                  {expensesList.length > 0 ? (
+                    expensesList.slice(0, 5).map((e) => (
+                      <div key={e.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
+                        <div>
+                          <p className="font-bold text-slate-700 dark:text-slate-200">{e.description}</p>
+                          <p className="text-[10px] text-slate-400 uppercase tracking-tighter font-semibold">Spent</p>
+                        </div>
+                        <p className="font-black text-red-600">- Rs. {Number(e.amount).toLocaleString()}</p>
                       </div>
-                      <p className="font-black text-red-600">- Rs. {Number(e.amount).toLocaleString()}</p>
-                    </div>
-                  )) : <p className="text-center py-6 text-slate-400 text-sm italic">{translations[language].noData}</p>}
+                    ))
+                  ) : (
+                    <p className="text-center py-6 text-slate-400 text-sm italic">{translations[language].noData}</p>
+                  )}
                 </div>
               </div>
-
             </div>
           </div>
         )}
 
-        {/* SUB-PAGES */}
         {activePage === "savings" && <Saving language={language} />}
         {activePage === "expense" && <Expense language={language} />}
-        {activePage === "settings" && <Settings language={language} setLanguage={setLanguage} theme={theme} setTheme={setTheme} />}
+        {activePage === "settings" && (
+          <Settings
+            language={language}
+            setLanguage={setLanguage}
+            theme={theme}
+            setTheme={setTheme}
+          />
+        )}
       </main>
     </div>
   );
