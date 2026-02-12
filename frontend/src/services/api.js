@@ -31,6 +31,7 @@ export const getUserById = (id) => API.get(`/${id}`);
 // Update a user by ID
 export const updateUserById = (id, data) => API.put(`/update/${id}`, data);
 
+// ================== Income Endpoints ==================
 
 
 // Delete a user by ID
@@ -40,4 +41,7 @@ export const createSavingApi = (data) => API.post("/savings", data);
 export const getSavingsApi = () => API.get("/savings");
 export const updateSavingApi = (id, data) => API.put(`/savings/${id}`, data);
 export const deleteSavingApi = (id) => API.delete(`/savings/${id}`);
+
+
+
 
