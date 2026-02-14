@@ -1,43 +1,40 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const path = require("path"); // Added path module
 const { sequelize, connectDB } = require("./database/database");
 
-// --- 1. IMPORT MODELS HERE ---
-// This ensures Sequelize registers the models before sync() runs
 const User = require("./models/userModel");
-const Income = require("./models/Income");   // Ensure these paths and 
-const Saving = require("./models/Saving");   // filenames match exactly
+const Income = require("./models/Income");
+const Saving = require("./models/Saving");
 const Expense = require("./models/Expense"); 
+const Wishlist = require("./models/Wishlist");
 
-// Middleware
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
 }));
 app.use(express.json());
 
+// Serving static files - Ensure this is correctly mapped
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Routes
 app.use("/api/users", require("./routes/userroute"));
 app.use("/api/savings", require("./routes/savingRoutes"));
 app.use("/api/expenses", require("./routes/expenseRoutes"));
 app.use('/api/income', require("./routes/incomeRoutes"));
+app.use("/api/wishlist", require("./routes/wishlistRoutes"));
 
-// Root endpoint
 app.get("/", (req, res) => {
   res.json({ message: "Moneymate backend is running" });
 });
 
-// Start server
 const startServer = async () => {
   try {
     await connectDB();
-    
-    // --- 2. SYNC MODELS ---
-    // This will now create the 'Incomes', 'Savings', and 'Expenses' tables
     await sequelize.sync({ alter: true });
     console.log("✅ All tables synced successfully in PostgreSQL");
-
     app.listen(3000, () => {
       console.log("🚀 Server running on port 3000");
     });
