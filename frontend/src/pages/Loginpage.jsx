@@ -58,23 +58,21 @@ export default function LoginPage() {
       zIndex: 0,
     },
 
-    card: {
-      width: "380px",
-      padding: "35px",
-      backgroundColor: "rgba(255,255,255,0.45)",
-      borderRadius: "20px",
-      backdropFilter: "blur(8px)",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
-      position: "relative",
-      zIndex: 2,
-      pointerEvents: "auto",
+   card: {
+      width: "400px",
+      padding: "30px",
+      background: "rgba(255, 255, 255, 0.9)",
+      backdropFilter: "blur(6px)",
+      borderRadius: "15px",
+      boxShadow: "0 0 20px rgba(0,0,0,0.25)",
+      zIndex: 10,
     },
-
     title: {
       textAlign: "center",
-      fontSize: "32px",
-      fontWeight: "700",
-      marginBottom: "25px",
+      marginBottom: "20px",
+      fontSize: "24px",
+      fontWeight: "bold",
+      color: "#333",
     },
 
     input: {
@@ -169,17 +167,11 @@ export default function LoginPage() {
           </div>
 
           <div style={styles.row}>
-            <label>
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
-              />{" "}
-              Remember me
-            </label>
+           
 
             <span style={styles.link} onClick={() => navigate("/forgot-password")}>
               Forgot password?
+             
             </span>
           </div>
 

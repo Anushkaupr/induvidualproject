@@ -180,22 +180,48 @@ function WishlistInsideCard({ language, wishes, fetchWishes }) {
   );
 }
 
+// Exact hex color from the uploaded image
+const BRAND_PURPLE = "#5D3CFF";
+
 function Settings({ language, setLanguage, theme, setTheme }) {
   return (
-    <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+    <div 
+      style={{ backgroundColor: BRAND_PURPLE }} 
+      className="p-8 rounded-[2rem] shadow-2xl border border-white/10 text-white"
+    >
       <h2 className="text-2xl font-bold mb-6">{translations[language].settings}</h2>
       <div className="mb-6">
-        <p className="font-medium mb-2">{translations[language].selectLanguage}</p>
+        <p className="font-medium mb-2 opacity-80">{translations[language].selectLanguage}</p>
         <div className="flex gap-4">
-          <button onClick={() => setLanguage("english")} className={`px-4 py-2 rounded-xl border transition ${language === "english" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>English</button>
-          <button onClick={() => setLanguage("nepali")} className={`px-4 py-2 rounded-xl border transition ${language === "nepali" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>नेपाली</button>
+          <button 
+            onClick={() => setLanguage("english")} 
+            className={`px-6 py-2 rounded-xl border-2 transition-all font-bold ${language === "english" ? "bg-white text-[#5D3CFF] border-white" : "bg-transparent text-white border-white/30 hover:border-white"}`}
+          >
+            English
+          </button>
+          <button 
+            onClick={() => setLanguage("nepali")} 
+            className={`px-6 py-2 rounded-xl border-2 transition-all font-bold ${language === "nepali" ? "bg-white text-[#5D3CFF] border-white" : "bg-transparent text-white border-white/30 hover:border-white"}`}
+          >
+            नेपाली
+          </button>
         </div>
       </div>
       <div>
-        <p className="font-medium mb-2">{translations[language].selectTheme}</p>
+        <p className="font-medium mb-2 opacity-80">{translations[language].selectTheme}</p>
         <div className="flex gap-4">
-          <button onClick={() => setTheme("light")} className={`px-4 py-2 rounded-xl border transition ${theme === "light" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>{translations[language].light}</button>
-          <button onClick={() => setTheme("dark")} className={`px-4 py-2 rounded-xl border transition ${theme === "dark" ? "bg-indigo-600 text-white" : "bg-white text-slate-700"}`}>{translations[language].dark}</button>
+          <button 
+            onClick={() => setTheme("light")} 
+            className={`px-6 py-2 rounded-xl border-2 transition-all font-bold ${theme === "light" ? "bg-white text-[#5D3CFF] border-white" : "bg-transparent text-white border-white/30 hover:border-white"}`}
+          >
+            {translations[language].light}
+          </button>
+          <button 
+            onClick={() => setTheme("dark")} 
+            className={`px-6 py-2 rounded-xl border-2 transition-all font-bold ${theme === "dark" ? "bg-white text-[#5D3CFF] border-white" : "bg-transparent text-white border-white/30 hover:border-white"}`}
+          >
+            {translations[language].dark}
+          </button>
         </div>
       </div>
     </div>
@@ -266,31 +292,31 @@ function Income({ language }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-      <h2 className="text-2xl font-bold mb-4">{translations[language].income}</h2>
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <input type="text" placeholder={translations[language].incomeField} className="p-3 rounded-xl border border-slate-300 dark:border-slate-600 flex-1 dark:bg-slate-900" value={field} onChange={(e) => setField(e.target.value)} />
-        <input type="number" placeholder={translations[language].incomeAmount} className="p-3 rounded-xl border border-slate-300 dark:border-slate-600 w-40 dark:bg-slate-900" value={amount} onChange={(e) => setAmount(e.target.value)} />
-        <button onClick={handleCreate} className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-500 transition font-bold">{translations[language].createIncome}</button>
+    <div style={{ backgroundColor: BRAND_PURPLE }} className="text-white p-8 rounded-[2rem] shadow-2xl border border-white/10">
+      <h2 className="text-2xl font-black mb-6 italic uppercase tracking-tighter">{translations[language].income}</h2>
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <input type="text" placeholder={translations[language].incomeField} className="p-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/50 flex-1 outline-none focus:bg-white/20 transition-all" value={field} onChange={(e) => setField(e.target.value)} />
+        <input type="number" placeholder={translations[language].incomeAmount} className="p-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/50 w-40 outline-none focus:bg-white/20 transition-all" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <button onClick={handleCreate} className="bg-white text-[#5D3CFF] px-8 py-4 rounded-2xl hover:scale-105 active:scale-95 transition-all font-black uppercase tracking-widest shadow-lg">{translations[language].createIncome}</button>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse border border-slate-300 dark:border-slate-600">
+        <table className="w-full border-separate border-spacing-y-2">
           <thead>
-            <tr className="bg-slate-100 dark:bg-slate-700 text-left">
-              <th className="p-3 border">{translations[language].incomeField}</th>
-              <th className="p-3 border">{translations[language].incomeAmount}</th>
-              <th className="p-3 border">Actions</th>
+            <tr className="text-left text-xs uppercase tracking-widest opacity-60">
+              <th className="px-4 py-2">{translations[language].incomeField}</th>
+              <th className="px-4 py-2">{translations[language].incomeAmount}</th>
+              <th className="px-4 py-2 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {incomeList.length === 0 && <tr><td colSpan="3" className="text-center p-3">{translations[language].noIncome}</td></tr>}
+            {incomeList.length === 0 && <tr><td colSpan="3" className="text-center p-6 opacity-50">{translations[language].noIncome}</td></tr>}
             {incomeList.map((i) => (
-              <tr key={i.id}>
-                <td className="p-3 border">{i.description}</td>
-                <td className="p-3 border">{Number(i.amount).toLocaleString()}</td>
-                <td className="p-3 border flex gap-2">
-                  <button onClick={() => handleEdit(i.id)} className="bg-yellow-400 text-white px-3 py-1 rounded">{translations[language].edit}</button>
-                  <button onClick={() => handleDelete(i.id)} className="bg-red-500 text-white px-3 py-1 rounded">{translations[language].delete}</button>
+              <tr key={i.id} className="bg-white/10 hover:bg-white/20 transition-colors">
+                <td className="p-4 rounded-l-2xl font-bold">{i.description}</td>
+                <td className="p-4 font-black">Rs. {Number(i.amount).toLocaleString()}</td>
+                <td className="p-4 rounded-r-2xl text-right">
+                  <button onClick={() => handleEdit(i.id)} className="text-yellow-400 hover:text-yellow-300 mr-4 font-bold transition-colors">{translations[language].edit}</button>
+                  <button onClick={() => handleDelete(i.id)} className="text-red-400 hover:text-red-300 font-bold transition-colors">{translations[language].delete}</button>
                 </td>
               </tr>
             ))}
@@ -365,31 +391,31 @@ function Saving({ language }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-      <h2 className="text-2xl font-bold mb-4">{translations[language].savings}</h2>
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <input type="text" placeholder={translations[language].savingField} className="p-3 rounded-xl border border-slate-300 dark:border-slate-600 flex-1 dark:bg-slate-900" value={field} onChange={(e) => setField(e.target.value)} />
-        <input type="number" placeholder={translations[language].savingAmount} className="p-3 rounded-xl border border-slate-300 dark:border-slate-600 w-40 dark:bg-slate-900" value={amount} onChange={(e) => setAmount(e.target.value)} />
-        <button onClick={handleCreate} className="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-500 transition font-bold">{translations[language].createSaving}</button>
+    <div style={{ backgroundColor: BRAND_PURPLE }} className="text-white p-8 rounded-[2rem] shadow-2xl border border-white/10">
+      <h2 className="text-2xl font-black mb-6 italic uppercase tracking-tighter">{translations[language].savings}</h2>
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <input type="text" placeholder={translations[language].savingField} className="p-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/50 flex-1 outline-none focus:bg-white/20 transition-all" value={field} onChange={(e) => setField(e.target.value)} />
+        <input type="number" placeholder={translations[language].savingAmount} className="p-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/50 w-40 outline-none focus:bg-white/20 transition-all" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <button onClick={handleCreate} className="bg-white text-[#5D3CFF] px-8 py-4 rounded-2xl hover:scale-105 active:scale-95 transition-all font-black uppercase tracking-widest shadow-lg">{translations[language].createSaving}</button>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse border border-slate-300 dark:border-slate-600">
+        <table className="w-full border-separate border-spacing-y-2">
           <thead>
-            <tr className="bg-slate-100 dark:bg-slate-700 text-left">
-              <th className="p-3 border">{translations[language].savingField}</th>
-              <th className="p-3 border">{translations[language].savingAmount}</th>
-              <th className="p-3 border">Actions</th>
+            <tr className="text-left text-xs uppercase tracking-widest opacity-60">
+              <th className="px-4 py-2">{translations[language].savingField}</th>
+              <th className="px-4 py-2">{translations[language].savingAmount}</th>
+              <th className="px-4 py-2 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {savingsList.length === 0 && <tr><td colSpan="3" className="text-center p-3">{translations[language].noSavings}</td></tr>}
+            {savingsList.length === 0 && <tr><td colSpan="3" className="text-center p-6 opacity-50">{translations[language].noSavings}</td></tr>}
             {savingsList.map((s) => (
-              <tr key={s.id}>
-                <td className="p-3 border">{s.description}</td>
-                <td className="p-3 border">{Number(s.amount).toLocaleString()}</td>
-                <td className="p-3 border flex gap-2">
-                  <button onClick={() => handleEdit(s.id)} className="bg-yellow-400 text-white px-3 py-1 rounded">{translations[language].edit}</button>
-                  <button onClick={() => handleDelete(s.id)} className="bg-red-500 text-white px-3 py-1 rounded">{translations[language].delete}</button>
+              <tr key={s.id} className="bg-white/10 hover:bg-white/20 transition-colors">
+                <td className="p-4 rounded-l-2xl font-bold">{s.description}</td>
+                <td className="p-4 font-black">Rs. {Number(s.amount).toLocaleString()}</td>
+                <td className="p-4 rounded-r-2xl text-right">
+                  <button onClick={() => handleEdit(s.id)} className="text-yellow-400 hover:text-yellow-300 mr-4 font-bold transition-colors">{translations[language].edit}</button>
+                  <button onClick={() => handleDelete(s.id)} className="text-red-400 hover:text-red-300 font-bold transition-colors">{translations[language].delete}</button>
                 </td>
               </tr>
             ))}
@@ -464,31 +490,31 @@ function Expense({ language }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-      <h2 className="text-2xl font-bold mb-4">{translations[language].expense}</h2>
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <input type="text" placeholder={translations[language].expenseField} className="p-3 rounded-xl border border-slate-300 dark:border-slate-600 flex-1 dark:bg-slate-900" value={field} onChange={(e) => setField(e.target.value)} />
-        <input type="number" placeholder={translations[language].expenseAmount} className="p-3 rounded-xl border border-slate-300 dark:border-slate-600 w-40 dark:bg-slate-900" value={amount} onChange={(e) => setAmount(e.target.value)} />
-        <button onClick={handleCreate} className="bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-500 transition font-bold">{translations[language].createExpense}</button>
+    <div style={{ backgroundColor: BRAND_PURPLE }} className="text-white p-8 rounded-[2rem] shadow-2xl border border-white/10">
+      <h2 className="text-2xl font-black mb-6 italic uppercase tracking-tighter">{translations[language].expense}</h2>
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <input type="text" placeholder={translations[language].expenseField} className="p-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/50 flex-1 outline-none focus:bg-white/20 transition-all" value={field} onChange={(e) => setField(e.target.value)} />
+        <input type="number" placeholder={translations[language].expenseAmount} className="p-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/50 w-40 outline-none focus:bg-white/20 transition-all" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <button onClick={handleCreate} className="bg-white text-[#5D3CFF] px-8 py-4 rounded-2xl hover:scale-105 active:scale-95 transition-all font-black uppercase tracking-widest shadow-lg">{translations[language].createExpense}</button>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse border border-slate-300 dark:border-slate-600">
+        <table className="w-full border-separate border-spacing-y-2">
           <thead>
-            <tr className="bg-slate-100 dark:bg-slate-700 text-left">
-              <th className="p-3 border">{translations[language].expenseField}</th>
-              <th className="p-3 border">{translations[language].expenseAmount}</th>
-              <th className="p-3 border">Actions</th>
+            <tr className="text-left text-xs uppercase tracking-widest opacity-60">
+              <th className="px-4 py-2">{translations[language].expenseField}</th>
+              <th className="px-4 py-2">{translations[language].expenseAmount}</th>
+              <th className="px-4 py-2 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {expensesList.length === 0 && <tr><td colSpan="3" className="text-center p-3">{translations[language].noExpenses}</td></tr>}
+            {expensesList.length === 0 && <tr><td colSpan="3" className="text-center p-6 opacity-50">{translations[language].noExpenses}</td></tr>}
             {expensesList.map((e) => (
-              <tr key={e.id}>
-                <td className="p-3 border">{e.description}</td>
-                <td className="p-3 border">{Number(e.amount).toLocaleString()}</td>
-                <td className="p-3 border flex gap-2">
-                  <button onClick={() => handleEdit(e.id)} className="bg-yellow-400 text-white px-3 py-1 rounded">{translations[language].edit}</button>
-                  <button onClick={() => handleDelete(e.id)} className="bg-red-500 text-white px-3 py-1 rounded">{translations[language].delete}</button>
+              <tr key={e.id} className="bg-white/10 hover:bg-white/20 transition-colors">
+                <td className="p-4 rounded-l-2xl font-bold">{e.description}</td>
+                <td className="p-4 font-black">Rs. {Number(e.amount).toLocaleString()}</td>
+                <td className="p-4 rounded-r-2xl text-right">
+                  <button onClick={() => handleEdit(e.id)} className="text-yellow-400 hover:text-yellow-300 mr-4 font-bold transition-colors">{translations[language].edit}</button>
+                  <button onClick={() => handleDelete(e.id)} className="text-red-400 hover:text-red-300 font-bold transition-colors">{translations[language].delete}</button>
                 </td>
               </tr>
             ))}
@@ -498,7 +524,6 @@ function Expense({ language }) {
     </div>
   );
 }
-
 // --- 3. MAIN DASHBOARD ---
 
 export default function UserDashboard() {
@@ -660,55 +685,69 @@ export default function UserDashboard() {
             </div>
 
             {/* 2. ACTIVITY LISTS */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Recent Income */}
-              <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border dark:border-slate-700">
-                <h3 className="font-bold text-lg flex items-center gap-2 mb-4">
-                  <span className="p-2 bg-blue-100 text-blue-600 rounded-lg text-xs"><i className="fas fa-plus"></i></span>
-                  {translations[language].recentIncome}
-                </h3>
-                <div className="space-y-3">
-                  {incomeList.length > 0 ? incomeList.slice(0, 5).map((i) => (
-                    <div key={i.id} className="flex justify-between items-center p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
-                      <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{i.description}</p>
-                      <p className="font-black text-blue-600 text-xs">Rs. {Number(i.amount).toLocaleString()}</p>
-                    </div>
-                  )) : <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>}
-                </div>
-              </div>
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  
+  {/* Recent Income - Sky Blue Theme */}
+  <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
+    <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-sky-500 uppercase tracking-tight">
+      <span className="p-2 bg-sky-100 text-sky-600 rounded-xl text-xs">
+        <i className="fas fa-plus"></i>
+      </span>
+      {translations[language].recentIncome}
+    </h3>
+    <div className="space-y-3">
+      {incomeList.length > 0 ? incomeList.slice(0, 5).map((i) => (
+        <div key={i.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-sky-200 transition-colors">
+          <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{i.description}</p>
+          <p className="font-black text-sky-600 text-xs">Rs. {Number(i.amount).toLocaleString()}</p>
+        </div>
+      )) : (
+        <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
+      )}
+    </div>
+  </div>
 
-              {/* Recent Savings */}
-              <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border dark:border-slate-700">
-                <h3 className="font-bold text-lg flex items-center gap-2 mb-4">
-                  <span className="p-2 bg-green-100 text-green-600 rounded-lg text-xs"><i className="fas fa-arrow-up"></i></span>
-                  {translations[language].recentSavings}
-                </h3>
-                <div className="space-y-3">
-                  {savingsList.length > 0 ? savingsList.slice(0, 5).map((s) => (
-                    <div key={s.id} className="flex justify-between items-center p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
-                      <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{s.description}</p>
-                      <p className="font-black text-green-600 text-xs">+ Rs. {Number(s.amount).toLocaleString()}</p>
-                    </div>
-                  )) : <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>}
-                </div>
-              </div>
+  {/* Recent Savings - Light Green Theme */}
+  <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
+    <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-emerald-400 uppercase tracking-tight">
+      <span className="p-2 bg-emerald-100 text-emerald-600 rounded-xl text-xs">
+        <i className="fas fa-arrow-up"></i>
+      </span>
+      {translations[language].recentSavings}
+    </h3>
+    <div className="space-y-3">
+      {savingsList.length > 0 ? savingsList.slice(0, 5).map((s) => (
+        <div key={s.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-emerald-200 transition-colors">
+          <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{s.description}</p>
+          <p className="font-black text-emerald-500 text-xs">+ Rs. {Number(s.amount).toLocaleString()}</p>
+        </div>
+      )) : (
+        <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
+      )}
+    </div>
+  </div>
 
-              {/* Recent Expenses */}
-              <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border dark:border-slate-700">
-                <h3 className="font-bold text-lg flex items-center gap-2 mb-4">
-                  <span className="p-2 bg-red-100 text-red-600 rounded-lg text-xs"><i className="fas fa-arrow-down"></i></span>
-                  {translations[language].recentExpenses}
-                </h3>
-                <div className="space-y-3">
-                  {expensesList.length > 0 ? expensesList.slice(0, 5).map((e) => (
-                    <div key={e.id} className="flex justify-between items-center p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
-                      <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{e.description}</p>
-                      <p className="font-black text-red-600 text-xs">- Rs. {Number(e.amount).toLocaleString()}</p>
-                    </div>
-                  )) : <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>}
-                </div>
-              </div>
-            </div>
+  {/* Recent Expenses - Red Theme */}
+  <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
+    <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-rose-500 uppercase tracking-tight">
+      <span className="p-2 bg-rose-100 text-rose-600 rounded-xl text-xs">
+        <i className="fas fa-arrow-down"></i>
+      </span>
+      {translations[language].recentExpenses}
+    </h3>
+    <div className="space-y-3">
+      {expensesList.length > 0 ? expensesList.slice(0, 5).map((e) => (
+        <div key={e.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-rose-200 transition-colors">
+          <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{e.description}</p>
+          <p className="font-black text-rose-600 text-xs">- Rs. {Number(e.amount).toLocaleString()}</p>
+        </div>
+      )) : (
+        <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
+      )}
+    </div>
+  </div>
+
+</div>
           </div>
         )}
 
