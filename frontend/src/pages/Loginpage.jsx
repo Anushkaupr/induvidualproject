@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login clicked!"); // debug line
+    console.log("Login clicked!"); 
 
     try {
       const res = await axios.post("http://localhost:3000/api/users/login", {
@@ -23,8 +23,13 @@ export default function LoginPage() {
 
       const user = res.data.user;
 
+      // --- NEW CODE: STORAGE ---
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", user.role);
+      
+      // We store the username (or email as a fallback) so the dashboard can display it
+      localStorage.setItem("username", user.username || user.name || user.email);
+      // -------------------------
 
       toast.success("Login successful!");
 
