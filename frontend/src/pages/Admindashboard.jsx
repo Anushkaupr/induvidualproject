@@ -6,16 +6,25 @@ import { useNavigate } from "react-router";
 const Admindashboard = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // NEW: State for logged in admin name
+  const [adminName, setAdminName] = useState("Admin");
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("username"); // Clear the name on logout
     toast.success("Logged out successfully");
     navigate("/login");
   };
 
   useEffect(() => {
+    // Get the name we saved during login
+    const storedName = localStorage.getItem("username");
+    if (storedName) setAdminName(storedName);
+
     const getAllUser = async () => {
       try {
         const response = await getAllUserApi();
@@ -51,7 +60,6 @@ const Admindashboard = () => {
       {/* SIDEBAR */}
       <aside className="w-64 bg-[#0f172a] text-white flex flex-col fixed h-full z-10 shadow-xl">
         <div className="p-8 flex items-center gap-3">
-          {/* LOGO ADDED HERE */}
           <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
           <div className="text-2xl font-black text-indigo-500 tracking-tighter uppercase">MONEYMATE</div>
         </div>
@@ -78,13 +86,16 @@ const Admindashboard = () => {
       <main className="flex-1 ml-64 p-8 overflow-y-auto">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-slate-800 uppercase tracking-wide">Admin Dashboard</h1>
+          
+          {/* UPDATED ADMIN PROFILE SECTION */}
           <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl shadow-sm border border-slate-100">
              <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-inner">
-               A
+                {/* Dynamic Initial */}
+                {adminName.charAt(0).toUpperCase()}
              </div>
              <div className="flex flex-col">
                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">System</span>
-               <span className="font-bold text-slate-700 leading-none">Administrator</span>
+               <span className="font-bold text-slate-700 leading-none">{adminName}</span>
              </div>
           </div>
         </header>
@@ -98,7 +109,6 @@ const Admindashboard = () => {
                 <p className="text-[10px] uppercase font-bold tracking-widest">Active Database Entries</p>
               </div>
             </div>
-            {/* Background design elements */}
             <div className="absolute -top-10 -right-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-0 p-8 opacity-10">
                <i className="fas fa-users text-9xl"></i>
