@@ -505,6 +505,10 @@ export default function UserDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
   const [language, setLanguage] = useState("english");
   const [theme, setTheme] = useState("light");
+  
+  // NEW: State for logged in user info
+  const [userName, setUserName] = useState("User");
+
   const [incomeList, setIncomeList] = useState([]);
   const [savingsList, setSavingsList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
@@ -512,8 +516,11 @@ export default function UserDashboard() {
 
   const navigate = useNavigate();
 
+  // Updated Logout to clear all user data
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username"); 
     navigate("/login");
   };
 
@@ -530,6 +537,11 @@ export default function UserDashboard() {
   const fetchDashboardData = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
+
+    // Get the name we saved during login
+    const storedName = localStorage.getItem("username");
+    if (storedName) setUserName(storedName);
+
     const headers = { Authorization: `Bearer ${token}` };
     try {
       const [incRes, savRes, expRes] = await Promise.all([
@@ -598,16 +610,24 @@ export default function UserDashboard() {
       <main className="flex-1 ml-64 p-8 overflow-y-auto">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold uppercase tracking-wide">{translations[language][activePage]}</h1>
+          
+          {/* USER PROFILE SECTION */}
           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">U</div>
-             <span className="font-medium">User</span>
+             <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold shadow-sm">
+                {/* Shows the first letter of the username */}
+                {userName.charAt(0).toUpperCase()}
+             </div>
+             <div className="flex flex-col">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">User</span>
+                <span className="font-bold text-slate-700 dark:text-purple leading-tight">{userName}</span>
+             </div>
           </div>
         </header>
 
         {activePage === "dashboard" && (
           <div className="max-w-6xl mx-auto space-y-8">
             
-            {/* 1. TOP SECTION (BALANCE CARD WITH INTEGRATED WISHLIST) */}
+            {/* 1. TOP SECTION (BALANCE CARD) */}
             <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2.5rem] p-10 text-white shadow-xl relative overflow-hidden">
                 <div className="relative z-10">
                   <h2 className="text-sm uppercase tracking-widest opacity-80 font-bold">{translations[language].totalBalance}</h2>
@@ -628,7 +648,6 @@ export default function UserDashboard() {
                     </div>
                   </div>
 
-                  {/* WISHLIST SECTION - NOW INSIDE THE CARD */}
                   <WishlistInsideCard 
                     language={language} 
                     wishes={wishes} 
@@ -640,7 +659,7 @@ export default function UserDashboard() {
                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-400/20 rounded-full blur-3xl"></div>
             </div>
 
-            {/* 2. ACTIVITY LISTS (3-COLUMN GRID) */}
+            {/* 2. ACTIVITY LISTS */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Recent Income */}
               <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border dark:border-slate-700">
