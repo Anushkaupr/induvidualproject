@@ -525,13 +525,12 @@ function Expense({ language }) {
   );
 }
 // --- 3. MAIN DASHBOARD ---
-
 export default function UserDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
   const [language, setLanguage] = useState("english");
   const [theme, setTheme] = useState("light");
   
-  // NEW: State for logged in user info
+  // State for logged in user info
   const [userName, setUserName] = useState("User");
 
   const [incomeList, setIncomeList] = useState([]);
@@ -612,7 +611,15 @@ export default function UserDashboard() {
       {/* SIDEBAR */}
       <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-10">
         <div className="p-8 flex items-center gap-3">
-          <div className="text-2xl font-black text-indigo-600 tracking-tighter uppercase">MONEYMATE</div>
+          <div className="text-2xl font-black text-indigo-600 tracking-tighter uppercase">
+            MONEYMATE
+          </div>
+          {/* LOGO ADDED HERE */}
+          <img 
+            src="/logo.png" 
+            alt="Logo" 
+            className="w-8 h-8 object-contain"
+          />
         </div>
         
         <nav className="flex-1 mt-4">
@@ -639,7 +646,6 @@ export default function UserDashboard() {
           {/* USER PROFILE SECTION */}
           <div className="flex items-center gap-3">
              <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold shadow-sm">
-                {/* Shows the first letter of the username */}
                 {userName.charAt(0).toUpperCase()}
              </div>
              <div className="flex flex-col">
@@ -685,69 +691,69 @@ export default function UserDashboard() {
             </div>
 
             {/* 2. ACTIVITY LISTS */}
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-  
-  {/* Recent Income - Sky Blue Theme */}
-  <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
-    <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-sky-500 uppercase tracking-tight">
-      <span className="p-2 bg-sky-100 text-sky-600 rounded-xl text-xs">
-        <i className="fas fa-plus"></i>
-      </span>
-      {translations[language].recentIncome}
-    </h3>
-    <div className="space-y-3">
-      {incomeList.length > 0 ? incomeList.slice(0, 5).map((i) => (
-        <div key={i.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-sky-200 transition-colors">
-          <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{i.description}</p>
-          <p className="font-black text-sky-600 text-xs">Rs. {Number(i.amount).toLocaleString()}</p>
-        </div>
-      )) : (
-        <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
-      )}
-    </div>
-  </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              
+              {/* Recent Income */}
+              <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
+                <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-sky-500 uppercase tracking-tight">
+                  <span className="p-2 bg-sky-100 text-sky-600 rounded-xl text-xs">
+                    <i className="fas fa-plus"></i>
+                  </span>
+                  {translations[language].recentIncome}
+                </h3>
+                <div className="space-y-3">
+                  {incomeList.length > 0 ? incomeList.slice(0, 5).map((i) => (
+                    <div key={i.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-sky-200 transition-colors">
+                      <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{i.description}</p>
+                      <p className="font-black text-sky-600 text-xs">Rs. {Number(i.amount).toLocaleString()}</p>
+                    </div>
+                  )) : (
+                    <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
+                  )}
+                </div>
+              </div>
 
-  {/* Recent Savings - Light Green Theme */}
-  <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
-    <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-emerald-400 uppercase tracking-tight">
-      <span className="p-2 bg-emerald-100 text-emerald-600 rounded-xl text-xs">
-        <i className="fas fa-arrow-up"></i>
-      </span>
-      {translations[language].recentSavings}
-    </h3>
-    <div className="space-y-3">
-      {savingsList.length > 0 ? savingsList.slice(0, 5).map((s) => (
-        <div key={s.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-emerald-200 transition-colors">
-          <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{s.description}</p>
-          <p className="font-black text-emerald-500 text-xs">+ Rs. {Number(s.amount).toLocaleString()}</p>
-        </div>
-      )) : (
-        <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
-      )}
-    </div>
-  </div>
+              {/* Recent Savings */}
+              <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
+                <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-emerald-400 uppercase tracking-tight">
+                  <span className="p-2 bg-emerald-100 text-emerald-600 rounded-xl text-xs">
+                    <i className="fas fa-arrow-up"></i>
+                  </span>
+                  {translations[language].recentSavings}
+                </h3>
+                <div className="space-y-3">
+                  {savingsList.length > 0 ? savingsList.slice(0, 5).map((s) => (
+                    <div key={s.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-emerald-200 transition-colors">
+                      <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{s.description}</p>
+                      <p className="font-black text-emerald-500 text-xs">+ Rs. {Number(s.amount).toLocaleString()}</p>
+                    </div>
+                  )) : (
+                    <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
+                  )}
+                </div>
+              </div>
 
-  {/* Recent Expenses - Red Theme */}
-  <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
-    <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-rose-500 uppercase tracking-tight">
-      <span className="p-2 bg-rose-100 text-rose-600 rounded-xl text-xs">
-        <i className="fas fa-arrow-down"></i>
-      </span>
-      {translations[language].recentExpenses}
-    </h3>
-    <div className="space-y-3">
-      {expensesList.length > 0 ? expensesList.slice(0, 5).map((e) => (
-        <div key={e.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-rose-200 transition-colors">
-          <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{e.description}</p>
-          <p className="font-black text-rose-600 text-xs">- Rs. {Number(e.amount).toLocaleString()}</p>
-        </div>
-      )) : (
-        <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
-      )}
-    </div>
-  </div>
+              {/* Recent Expenses */}
+              <div className="bg-white dark:bg-slate-800 p-5 rounded-[2rem] shadow-sm border dark:border-slate-700">
+                <h3 className="font-black text-lg flex items-center gap-2 mb-4 text-rose-500 uppercase tracking-tight">
+                  <span className="p-2 bg-rose-100 text-rose-600 rounded-xl text-xs">
+                    <i className="fas fa-arrow-down"></i>
+                  </span>
+                  {translations[language].recentExpenses}
+                </h3>
+                <div className="space-y-3">
+                  {expensesList.length > 0 ? expensesList.slice(0, 5).map((e) => (
+                    <div key={e.id} className="flex justify-between items-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 group hover:border-rose-200 transition-colors">
+                      <p className="font-bold text-xs text-slate-700 dark:text-slate-200">{e.description}</p>
+                      <p className="font-black text-rose-600 text-xs">- Rs. {Number(e.amount).toLocaleString()}</p>
+                    </div>
+                  )) : (
+                    <p className="text-center py-6 text-slate-400 text-xs italic">{translations[language].noData}</p>
+                  )}
+                </div>
+              </div>
 
-</div>
+            </div>
           </div>
         )}
 
