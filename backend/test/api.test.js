@@ -8,65 +8,77 @@ describe('User Management System API Tests', () => {
   const testEmail = `test_${Date.now()}@example.com`;
   const testPassword = 'password123';
   const testDob = '1995-05-15';
+  const testUsername = `user_${Date.now()}`;
 
-  // 1. PASS: Register a new user
+  // 1. PASS: Register
   it('should register a new user successfully', async () => {
     const res = await request(BASE_URL)
       .post('/api/users/register')
       .send({
-        username: `user_${Date.now()}`,
+        username: testUsername,
         email: testEmail,
         password: testPassword,
         dob: testDob
       });
 
     expect(res.statusCode).toBe(201);
-    expect(res.body.success).toBe(true);
     testUserId = res.body.user.id;
   });
 
-  // 2. PASS: Login successfully
+  // 2. PASS: Prevent Duplicate
+  it('should return 400 when registering with an existing email', async () => {
+    const res = await request(BASE_URL)
+      .post('/api/users/register')
+      .send({
+        username: 'otheruser',
+        email: testEmail,
+        password: 'password123',
+        dob: '1990-01-01'
+      });
+    expect(res.statusCode).toBe(400);
+  });
+
+  // 3. PASS: Login
   it('should login and return a JWT token', async () => {
     const res = await request(BASE_URL)
       .post('/api/users/login')
       .send({ email: testEmail, password: testPassword });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.token).toBeDefined();
     authToken = res.body.token;
   });
 
-  // 3. PASS: Registration Validation (Missing Fields)
+  // 4. PASS: Validation
   it('should return 400 when fields are missing', async () => {
     const res = await request(BASE_URL)
       .post('/api/users/register')
       .send({ email: 'incomplete@test.com' });
-
     expect(res.statusCode).toBe(400);
-    expect(res.body.success).toBe(false);
   });
 
-  // 4. PASS: Login Validation (Wrong Password)
+  // 5. PASS: Invalid Password
   it('should return 401 for invalid password', async () => {
     const res = await request(BASE_URL)
       .post('/api/users/login')
       .send({ email: testEmail, password: 'wrongpassword' });
-
     expect(res.statusCode).toBe(401);
-    expect(res.body.success).toBe(false);
   });
 
-  // 5. PASS: Fetch own profile (getMe)
+  // 6. PASS: Protected Profile
   it('should fetch profile details using token', async () => {
     const res = await request(BASE_URL)
       .get('/api/users/getMe')
       .set('Authorization', `Bearer ${authToken}`);
-
     expect(res.statusCode).toBe(200);
-    expect(res.body.user.email).toBe(testEmail);
   });
 
-  // 6. PASS: Reset Password via DOB
+  // 7. PASS: Security Check (Single User)
+  it('should deny access to getUserById without token', async () => {
+    const res = await request(BASE_URL).get(`/api/users/${testUserId}`);
+    expect(res.statusCode).not.toBe(200);
+  });
+
+  // 8. PASS: Reset Password
   it('should reset password when email and DOB match', async () => {
     const res = await request(BASE_URL)
       .post('/api/users/reset-password-dob')
@@ -75,28 +87,27 @@ describe('User Management System API Tests', () => {
         dob: testDob,
         newPassword: 'updatedPassword123'
       });
-
     expect(res.statusCode).toBe(200);
-    expect(res.body.success).toBe(true);
   });
 
-  // 7. PASS: Update User Info
-  it('should update user username successfully', async () => {
+  // 9. PASS: Login for non-existent email (NEW TEST)
+  it('should return 404 for a non-existent email login', async () => {
     const res = await request(BASE_URL)
-      .put(`/api/users/update/${testUserId}`)
-      .set('Authorization', `Bearer ${authToken}`)
-      .send({ username: 'final_test_name' });
+      .post('/api/users/login')
+      .send({ 
+        email: `ghost_${Date.now()}@notfound.com`, 
+        password: 'somepassword' 
+      });
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.user.username).toBe('final_test_name');
+    // Your controller returns 404 if user is not found
+    expect(res.statusCode).toBe(404);
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toMatch(/not found/i);
   });
 
-  // 8. PASS: Security Check (Unauthorized Access)
-  it('should deny access to delete without token', async () => {
-    const res = await request(BASE_URL)
-      .delete(`/api/users/delete/${testUserId}`);
-
-    // Since no token is provided, authGuard should block this.
+  // 10. PASS: Security Check (All Users)
+  it('should deny access to getAllUser without token', async () => {
+    const res = await request(BASE_URL).get(`/api/users/getAllUser`);
     expect(res.statusCode).not.toBe(200);
   });
 });

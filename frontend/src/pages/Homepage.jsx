@@ -80,7 +80,7 @@ export default function Homepage() {
     },
 
     registerBtn: {
-      backgroundColor: "#1d75e8",
+      backgroundColor: "#34c759",
     },
   };
 
