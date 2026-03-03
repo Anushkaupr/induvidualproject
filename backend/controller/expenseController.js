@@ -84,7 +84,6 @@ exports.updateExpense = async (req, res) => {
   }
 };
 
-// ================= DELETE EXPENSE =================
 exports.deleteExpense = async (req, res) => {
   try {
     const deleted = await Expense.destroy({

@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { sequelize } = require('../database/database'); // This goes up one level, then into database/ (Correct)
+const { sequelize } = require('../database/database'); 
 const BASE_URL = `http://localhost:3000`; 
 
 

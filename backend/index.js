@@ -16,7 +16,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serving static files - Ensure this is correctly mapped
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes

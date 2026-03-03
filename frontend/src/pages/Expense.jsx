@@ -7,7 +7,7 @@ function Expense({ language }) {
 
   const API_BASE = "http://localhost:3000/api/expenses";
 
-  // 🔐 Centralized auth headers
+
   const getAuthHeaders = () => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
@@ -17,7 +17,6 @@ function Expense({ language }) {
     };
   };
 
-  // FETCH expenses
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
@@ -42,7 +41,7 @@ function Expense({ language }) {
     fetchExpenses();
   }, []);
 
-  // CREATE expense
+ 
   const handleCreate = async () => {
     if (!field || !amount || parseFloat(amount) <= 0) {
       alert("Please enter valid field and amount");
@@ -73,8 +72,6 @@ function Expense({ language }) {
       alert("Error creating expense");
     }
   };
-
-  // DELETE expense
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this expense?")) return;
 
@@ -94,8 +91,6 @@ function Expense({ language }) {
       alert("Error deleting expense");
     }
   };
-
-  // EDIT expense
   const handleEdit = async (id) => {
     const expense = expensesList.find((e) => e.id === id);
     if (!expense) return;

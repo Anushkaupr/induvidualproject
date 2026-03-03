@@ -2,13 +2,10 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// ================= REGISTER =================
-// userController.js (Selected parts)
 
-// ================= REGISTER =================
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, dob } = req.body; // Extract dob
+    const { username, email, password, dob } = req.body; 
 
     if (!username || !email || !password || !dob) {
       return res.status(400).json({
@@ -28,7 +25,7 @@ exports.register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      dob, // <--- Save DOB
+      dob, 
       role: "user",
     });
 
@@ -39,16 +36,16 @@ exports.register = async (req, res) => {
         id: newUser.id,
         username: newUser.username,
         email: newUser.email,
-        dob: newUser.dob, // <--- Return DOB
+        dob: newUser.dob, 
         role: newUser.role,
       },
     });
   } catch (error) {
-    /* ... error handling ... */
+   
   }
 };
 
-// ================= UPDATE USER BY ID =================
+
 exports.updateUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -63,7 +60,7 @@ exports.updateUserById = async (req, res) => {
       username: username || user.username,
       email: email || user.email,
       password: hashedPassword,
-      dob: dob || user.dob, // <--- Update DOB
+      dob: dob || user.dob, 
     });
 
     return res.status(200).json({
@@ -73,7 +70,7 @@ exports.updateUserById = async (req, res) => {
     });
   } catch (error) { /* ... error handling ... */ }
 };
-// ================= LOGIN =================
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -127,11 +124,11 @@ exports.login = async (req, res) => {
   }
 };
 
-// ================= GET ALL USERS =================
+
 exports.getAllUser = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: { exclude: ["password"] }, // exclude password from results
+      attributes: { exclude: ["password"] }, 
     });
 
     return res.json({
@@ -148,7 +145,7 @@ exports.getAllUser = async (req, res) => {
   }
 };
 
-// ================= GET USER BY ID =================
+
 exports.getUserById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -176,12 +173,12 @@ exports.getUserById = async (req, res) => {
     });
   }
 };
-// ================= RESET PASSWORD VIA DOB =================
+
 exports.resetPasswordWithDOB = async (req, res) => {
   try {
     const { email, dob, newPassword } = req.body;
 
-    // 1. Validate input
+    
     if (!email || !dob || !newPassword) {
       return res.status(400).json({
         success: false,
@@ -189,13 +186,13 @@ exports.resetPasswordWithDOB = async (req, res) => {
       });
     }
 
-    // 2. Find user by email
+    
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // 3. Compare DOB (Sequelize DATEONLY matches 'YYYY-MM-DD')
+    
     if (user.dob !== dob) {
       return res.status(401).json({
         success: false,
@@ -203,7 +200,7 @@ exports.resetPasswordWithDOB = async (req, res) => {
       });
     }
 
-    // 4. Hash new password and update
+    
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await user.update({ password: hashedPassword });
 
@@ -219,7 +216,7 @@ exports.resetPasswordWithDOB = async (req, res) => {
     });
   }
 };
-// ================= UPDATE USER BY ID =================
+
 exports.updateUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -233,7 +230,7 @@ exports.updateUserById = async (req, res) => {
       });
     }
 
-    // Check if email exists for another user
+    
     if (email) {
       const existingEmail = await User.findOne({ where: { email } });
       if (existingEmail && existingEmail.id !== user.id) {
@@ -244,7 +241,7 @@ exports.updateUserById = async (req, res) => {
       }
     }
 
-    // Check if username exists for another user
+    
     if (username) {
       const existingUsername = await User.findOne({ where: { username } });
       if (existingUsername && existingUsername.id !== user.id) {
@@ -277,7 +274,6 @@ exports.updateUserById = async (req, res) => {
   }
 };
 
-// ================= DELETE USER BY ID =================
 exports.deleteUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -302,8 +298,6 @@ exports.deleteUserById = async (req, res) => {
     });
   }
 };
-
-// ================= GET CURRENT USER =================
 exports.getMe = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {

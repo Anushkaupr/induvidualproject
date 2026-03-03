@@ -6,67 +6,44 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/homepage"); // route to homepage
+      navigate("/homepage");
     }, 2000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
 
-  const styles = {
-    container: {
-      height: "100vh",
-      width: "100%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#ffffff",
-    },
-
-    logoContainer: {
-      textAlign: "center",
-      animation: "fadeIn 1.2s ease-in-out",
-    },
-
-    logo: {
-      width: "180px",
-      height: "auto",
-    },
-
-    text: {
-      marginTop: "20px",
-      fontSize: "22px",
-      fontWeight: "600",
-      color: "#444",
-      letterSpacing: "1px",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      <div style={styles.logoContainer}>
+    <div className="h-screen w-full flex justify-center items-center bg-white dark:bg-slate-900 transition-colors duration-500">
+      
+      {/* Container with a smooth entry animation */}
+      <div className="text-center animate-in fade-in zoom-in duration-1000 ease-out">
+        
+        {/* Logo with a slight pulse to show it's loading */}
         <img
-          src="logo.png"   // 👈 your logo here
+          src="logo.png"
           alt="Money Mate Logo"
-          style={styles.logo}
+          className="w-[180px] h-auto mx-auto drop-shadow-md animate-pulse"
         />
-        <div style={styles.text}>Money Mate</div>
+        
+        {/* Text with premium styling */}
+        <div className="mt-5 text-2xl font-black text-slate-700 dark:text-white tracking-[2px] uppercase">
+          Money <span className="text-blue-600">Mate</span>
+        </div>
+
+        {/* Optional: Simple Loading Bar */}
+        <div className="mt-8 w-48 h-1 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto overflow-hidden">
+          <div className="h-full bg-blue-600 animate-[loading_2s_ease-in-out]"></div>
+        </div>
       </div>
 
-      {/* Inline animation */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: scale(0.95);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-        `}
-      </style>
+      {/* Tailwind handles standard animations, but for custom progress bars, 
+          you can add this one-line global style if needed */}
+      <style>{`
+        @keyframes loading {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+      `}</style>
     </div>
   );
 }

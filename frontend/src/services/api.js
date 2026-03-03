@@ -2,10 +2,9 @@ import axios from "axios";
 
 // Create axios instance
 const API = axios.create({
-  baseURL: "http://localhost:3000/api/users", // Your backend URL
+  baseURL: "http://localhost:3000/api/users", 
 });
 
-// Attach token automatically (if you are using JWT auth)
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -14,11 +13,9 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-// ================== Auth Endpoints ==================
 export const loginApi = (data) => API.post("/login", data);
 export const registerApi = (data) => API.post("/register", data);
 
-// ================== User Endpoints ==================
 // Get logged-in user
 export const getMe = () => API.get("/getMe");
 
@@ -31,7 +28,7 @@ export const getUserById = (id) => API.get(`/${id}`);
 // Update a user by ID
 export const updateUserById = (id, data) => API.put(`/update/${id}`, data);
 
-// ================== Income Endpoints ==================
+
 
 
 // Delete a user by ID

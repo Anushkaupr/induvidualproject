@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-// optional if you keep translations
 
 export default function Saving({ language = "en" }) {
   const [field, setField] = useState("");
   const [amount, setAmount] = useState("");
   const [savingsList, setSavingsList] = useState([]);
-
-  // Fetch savings from backend on component load
   useEffect(() => {
     const fetchSavings = async () => {
       try {
@@ -23,7 +20,6 @@ export default function Saving({ language = "en" }) {
     fetchSavings();
   }, []);
 
-  // Create new saving
   const handleCreate = async () => {
     if (!field || !amount || parseFloat(amount) <= 0) {
       alert("Please enter valid field and amount");

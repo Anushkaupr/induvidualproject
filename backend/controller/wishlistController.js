@@ -48,8 +48,7 @@ exports.deleteWish = async (req, res) => {
             return res.status(404).json({ success: false, message: "Wish not found" });
         }
 
-        // 1. Delete physical file
-        // We use path.resolve to ensure we are looking in the correct root directory
+       
         const filePath = path.join(__dirname, '..', '..', wish.imageUrl); 
         
         try {
@@ -58,7 +57,7 @@ exports.deleteWish = async (req, res) => {
             }
         } catch (fileErr) {
             console.error("File deletion error (disk):", fileErr.message);
-            // We continue so the database record is still deleted
+            
         }
 
         // 2. Delete from Database

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-// --- 1. TRANSLATION DICTIONARY ---
 const translations = {
   english: {
     dashboard: "Dashboard",
@@ -85,9 +83,6 @@ const translations = {
   },
 };
 
-// --- 2. INTERNAL COMPONENTS ---
-
-// This component is now rendered inside the Balance Card
 function WishlistInsideCard({ language, wishes, fetchWishes }) {
   const [note, setNote] = useState("");
   const [file, setFile] = useState(null);
@@ -524,13 +519,13 @@ function Expense({ language }) {
     </div>
   );
 }
-// --- 3. MAIN DASHBOARD ---
+
 export default function UserDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
   const [language, setLanguage] = useState("english");
   const [theme, setTheme] = useState("light");
   
-  // State for logged in user info
+  
   const [userName, setUserName] = useState("User");
 
   const [incomeList, setIncomeList] = useState([]);
@@ -539,8 +534,6 @@ export default function UserDashboard() {
   const [wishes, setWishes] = useState([]);
 
   const navigate = useNavigate();
-
-  // Updated Logout to clear all user data
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -561,8 +554,6 @@ export default function UserDashboard() {
   const fetchDashboardData = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
-
-    // Get the name we saved during login
     const storedName = localStorage.getItem("username");
     if (storedName) setUserName(storedName);
 

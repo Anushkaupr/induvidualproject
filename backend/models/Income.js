@@ -22,9 +22,8 @@ const Income = sequelize.define("Income", {
   },
 });
 
-// Associations
-// This links each income record to a specific User
 Income.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 User.hasMany(Income, { foreignKey: "userId" });
 
 module.exports = Income;
+

@@ -8,9 +8,11 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleReset = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post("http://localhost:3000/api/users/reset-password-dob", {
         email,
@@ -20,40 +22,89 @@ export default function ForgotPassword() {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate("/login"); // Take them back to login
+        navigate("/login");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Reset failed");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Reuse your Register.jsx styles here
-  const styles = {
-    container: { height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundImage: "url('/bg.jpg')", backgroundSize: "cover" },
-    card: { width: "400px", padding: "30px", background: "rgba(255, 255, 255, 0.9)", borderRadius: "15px", boxShadow: "0 0 20px rgba(0,0,0,0.25)" },
-    title: { textAlign: "center", marginBottom: "20px", fontSize: "24px", fontWeight: "bold" },
-    input: { width: "100%", padding: "12px", margin: "8px 0 15px 0", border: "1px solid #ccc", borderRadius: "8px" },
-    button: { width: "100%", padding: "12px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold" },
-    link: { color: "#4a90e2", cursor: "pointer", display: "block", textAlign: "center", marginTop: "15px" }
-  };
-
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Reset Password</h2>
-        <form onSubmit={handleReset}>
-          <label>Email Address</label>
-          <input style={styles.input} type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+    <div 
+      className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4" 
+      style={{ backgroundImage: "url('/bg.jpg')" }}
+    >
+      {/* Overlay to make the background look more professional */}
+      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
+
+      <div className="relative w-full max-w-md bg-white/90 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl border border-white/20">
+        
+        {/* Icon & Title */}
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-200 mx-auto mb-4">
+            <i className="fas fa-key"></i>
+          </div>
+          <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">Reset Password</h2>
+          <p className="text-slate-500 text-sm mt-2 font-medium">Verify your identity to update password</p>
+        </div>
+
+        <form onSubmit={handleReset} className="space-y-5">
+          {/* Email Field */}
+          <div className="space-y-2">
+            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
+            <input 
+              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
+              type="email" 
+              placeholder="Enter your email"
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+            />
+          </div>
           
-          <label>Verify Date of Birth</label>
-          <input style={styles.input} type="date" value={dob} onChange={(e) => setDob(e.target.value)} required />
+          {/* DOB Field */}
+          <div className="space-y-2">
+            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Verify Date of Birth</label>
+            <input 
+              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all font-semibold text-slate-700 uppercase"
+              type="date" 
+              value={dob} 
+              onChange={(e) => setDob(e.target.value)} 
+              required 
+            />
+          </div>
 
-          <label>New Password</label>
-          <input style={styles.input} type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+          {/* New Password Field */}
+          <div className="space-y-2">
+            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">New Password</label>
+            <input 
+              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
+              type="password" 
+              placeholder="••••••••"
+              value={newPassword} 
+              onChange={(e) => setNewPassword(e.target.value)} 
+              required 
+            />
+          </div>
 
-          <button type="submit" style={styles.button}>Update Password</button>
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] disabled:opacity-70"
+          >
+            {loading ? "Processing..." : "Update Password"}
+          </button>
         </form>
-        <span style={styles.link} onClick={() => navigate("/login")}>Back to Login</span>
+
+        <button 
+          onClick={() => navigate("/login")}
+          className="w-full mt-6 text-indigo-600 font-bold text-sm hover:text-indigo-800 transition-colors flex items-center justify-center gap-2"
+        >
+          <i className="fas fa-arrow-left text-xs"></i>
+          Back to Login
+        </button>
       </div>
     </div>
   );

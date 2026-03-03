@@ -13,7 +13,7 @@ const Wishlist = sequelize.define("Wishlist", {
   },
 });
 
-// Associations (Matching your Saving model style)
+
 Wishlist.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 User.hasMany(Wishlist, { foreignKey: "userId" });
 

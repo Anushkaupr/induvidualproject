@@ -9,7 +9,6 @@ const Expense = sequelize.define("Expense", {
   date: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
 });
 
-// Associations
 Expense.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 User.hasMany(Expense, { foreignKey: "userId" });
 

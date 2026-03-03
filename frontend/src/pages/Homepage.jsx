@@ -4,114 +4,42 @@ import { useNavigate } from "react-router-dom";
 export default function Homepage() {
   const navigate = useNavigate();
 
-  const styles = {
-    container: {
-      height: "100vh",
-      width: "100%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      position: "relative", // required for absolute logo
-      backgroundImage: 'url("image.png")',
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-    },
-
-    logo: {
-      position: "absolute",
-      top: "20px",
-      right: "30px",
-      width: "90px",       // adjust size if needed
-      height: "auto",
-      cursor: "pointer",
-      zIndex: 10,
-      borderRadius: "8px",
-    },
-
-    frame: {
-      backgroundColor: "rgba(192, 192, 192, 0.7)",
-      padding: "20px 50px",
-      borderRadius: "25px",
-      textAlign: "center",
-      backdropFilter: "blur(8px)",
-      boxShadow: "0px 10px 35px rgba(0, 0, 0, 0.25)",
-      maxWidth: "600px",
-    },
-
-    title: {
-      fontSize: "48px",
-      fontWeight: "700",
-      marginBottom: "12px",
-      color: "#000", // fixed invalid color
-      letterSpacing: "1px",
-    },
-
-    subtitle: {
-      fontSize: "20px",
-      marginBottom: "40px",
-      color: "#444",
-      fontWeight: "400",
-    },
-
-    buttonContainer: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "20px",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-    },
-
-    button: {
-      padding: "10px 45px",
-      fontSize: "20px",
-      borderRadius: "13px",
-      border: "none",
-      cursor: "pointer",
-      fontWeight: "600",
-      width: "60%",
-      transition: "0.3s ease",
-      color: "white",
-    },
-
-    loginBtn: {
-      backgroundColor: "#1d75e8",
-    },
-
-    registerBtn: {
-      backgroundColor: "#34c759",
-    },
-  };
-
   return (
-    <div style={styles.container}>
-      {/* Top Right Logo */}
+    <div 
+      className="h-screen w-full flex justify-center items-center relative bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: 'url("image.png")' }}
+    >
+      {/* LOGO - Positioned top right */}
       <img
-        src="/logo.png"   // place logo.png inside /public folder
+        src="/logo.png"
         alt="Money Mate Logo"
-        style={styles.logo}
+        className="absolute top-5 right-8 w-[90px] h-auto cursor-pointer z-10 rounded-lg hover:scale-105 transition-transform"
         onClick={() => navigate("/")}
       />
 
-      {/* Main Card */}
-      <div style={styles.frame}>
-        <h1 style={styles.title}>Welcome to Money Mate!!</h1>
-        <p style={styles.subtitle}>
+      {/* CENTER FRAME (Glassmorphism) */}
+      <div className="bg-white/70 dark:bg-slate-900/60 backdrop-blur-md p-10 md:px-12 md:py-16 rounded-[40px] text-center shadow-2xl border border-white/30 max-w-[600px] mx-4">
+        
+        <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tight uppercase">
+          Welcome to <span className="text-blue-600">Money Mate</span>
+        </h1>
+        
+        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-10 font-medium">
           Manage your expenses and income easily.
         </p>
 
-        <div style={styles.buttonContainer}>
+        {/* BUTTON CONTAINER */}
+        <div className="flex flex-col gap-4 items-center w-full">
           <button
-            style={{ ...styles.button, ...styles.loginBtn }}
             onClick={() => navigate("/login")}
+            className="w-full md:w-3/4 bg-blue-600 hover:bg-blue-700 text-white py-4 px-10 rounded-2xl text-xl font-bold shadow-lg shadow-blue-200 transition-all active:scale-95"
           >
             Login
           </button>
 
           <button
-            style={{ ...styles.button, ...styles.registerBtn }}
             onClick={() => navigate("/register")}
+            className="w-full md:w-3/4 bg-emerald-500 hover:bg-emerald-600 text-white py-4 px-10 rounded-2xl text-xl font-bold shadow-lg shadow-emerald-200 transition-all active:scale-95"
           >
             Register
           </button>
