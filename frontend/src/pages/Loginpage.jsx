@@ -41,62 +41,52 @@ export default function LoginPage() {
 
   return (
     <div 
-      className="h-screen w-full flex justify-center items-center bg-cover bg-center bg-no-repeat relative"
-      style={{ backgroundImage: 'url("bg.jpg")' }}
+      className="h-screen w-full flex justify-center items-center bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: 'url("bg.jpg")' }} // Ensure this image exists in your public folder
     >
-      {/* Dark Overlay for better contrast */}
-      <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px]"></div>
-
-      <div className="relative w-full max-w-md bg-white/90 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl border border-white/20 mx-4">
+      {/* Container with exact styling from screenshot */}
+      <div className="w-full max-w-[420px] bg-white/95 backdrop-blur-sm p-10 rounded-[1.5rem] shadow-xl mx-4">
         
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-blue-200 mx-auto mb-4">
-            <i className="fas fa-lock"></i>
-          </div>
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">Login</h2>
-          <p className="text-slate-500 text-sm mt-2 font-medium">Welcome back to MoneyMate</p>
-        </div>
+        {/* Title */}
+        <h2 className="text-2xl font-bold text-slate-800 text-center mb-8">Login</h2>
 
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-4">
           {/* Email Input */}
-          <div className="space-y-2">
-            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
-            <input
-              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
-              type="email"
-              placeholder="example@mail.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <div className="relative">
+         <input
+  type="email"
+  placeholder="Email"
+  autoComplete="off"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  required
+/>
           </div>
 
           {/* Password Input */}
-          <div className="space-y-2">
-            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Password</label>
-            <div className="relative">
-              <input
-                className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 hover:text-blue-600 transition-colors"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-              </span>
-            </div>
+          <div className="relative">
+          <input
+  type={showPassword ? "text" : "password"}
+  placeholder="Password"
+  autoComplete="new-password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  required
+/>
+            <span
+              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 hover:text-slate-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+            </span>
           </div>
 
           {/* Forgot Password Link */}
-          <div className="flex justify-end">
+          <div className="flex justify-start">
             <span 
-              className="text-sm font-bold text-blue-600 hover:text-blue-800 cursor-pointer transition-colors"
+              className="text-sm font-semibold text-blue-500 hover:underline cursor-pointer"
               onClick={() => navigate("/forgot-password")}
             >
               Forgot password?
@@ -107,17 +97,17 @@ export default function LoginPage() {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-blue-200 transition-all active:scale-[0.98] disabled:opacity-70"
+            className="w-full bg-[#1a73e8] hover:bg-blue-700 text-white py-3 rounded-lg font-bold text-lg shadow-md transition-all active:scale-[0.98] disabled:opacity-70 mt-4"
           >
             {loading ? "Signing in..." : "Login"}
           </button>
         </form>
 
         {/* Footer Text */}
-        <div className="mt-8 text-center text-slate-600 text-sm font-medium">
+        <div className="mt-8 text-center text-slate-500 text-sm">
           Don’t have an account?{" "}
           <span 
-            className="text-blue-600 font-bold cursor-pointer hover:underline"
+            className="text-blue-500 font-bold cursor-pointer hover:underline"
             onClick={() => navigate("/register")}
           >
             Sign Up

@@ -39,57 +39,54 @@ export default function Register() {
 
   return (
     <div 
-      className="min-h-screen w-full flex justify-center items-center bg-cover bg-center bg-no-repeat relative"
+      className="min-h-screen w-full flex justify-center items-center bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/bg.jpg')" }}
     >
-      {/* Dark Blur Overlay */}
-      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
+    
+      <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]"></div>
 
-      <div className="relative w-full max-w-md bg-white/90 backdrop-blur-xl p-8 md:p-10 rounded-[2.5rem] shadow-2xl border border-white/20 mx-4">
+      <div className="relative w-full max-w-[440px] bg-white p-10 rounded-xl shadow-xl mx-4">
         
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-200 mx-auto mb-3">
-            <i className="fas fa-user-plus"></i>
-          </div>
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">Register</h2>
-          <p className="text-slate-500 text-sm mt-1 font-medium">Create your MoneyMate account</p>
-        </div>
+       
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-8">Register</h2>
 
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form onSubmit={handleSignup} className="space-y-5">
           
-          {/* Username */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Username</label>
+         
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Username</label>
             <input
-              className="w-full p-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
-              type="text"
-              placeholder="Pick a username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
+  type="text"
+  placeholder="Enter your username"
+  autoComplete="off"
+  className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-400 text-gray-700 placeholder-gray-500"
+  value={username}
+  onChange={(e) => setUsername(e.target.value)}
+  required
+/>
           </div>
 
-          {/* DOB */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Date of Birth</label>
-            <input
-              className="w-full p-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-semibold text-slate-700 uppercase"
-              type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              required
-            />
+         
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Date-of-Birth</label>
+            <div className="relative">
+              <input
+                className="w-full p-3 bg-[#f3f4f6] border border-gray-200 rounded-lg outline-none focus:border-emerald-500 transition-colors text-gray-500"
+                type="date"
+                value={dob}
+                onChange={(e) => setDob(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           {/* Email */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Email</label>
             <input
-              className="w-full p-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
+              className="w-full p-3 bg-[#f3f4f6] border border-gray-200 rounded-lg outline-none focus:border-emerald-500 transition-colors text-gray-700 placeholder:text-gray-400"
               type="email"
-              placeholder="name@example.com"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -97,41 +94,42 @@ export default function Register() {
           </div>
 
           {/* Password */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Password</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Password</label>
             <div className="relative">
-              <input
-                className="w-full p-3.5 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+             <input
+  type={showPassword ? "text" : "password"}
+  placeholder="Enter your password"
+  autoComplete="new-password"
+  className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-emerald-400 text-gray-700 placeholder-gray-500"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  required
+/>
               <span
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 hover:text-emerald-600 transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
               </span>
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Register Button */}
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-emerald-200 transition-all active:scale-[0.98] disabled:opacity-70 mt-4"
+            className="w-full bg-[#34d399] hover:bg-[#10b981] text-white py-3.5 rounded-lg font-bold text-lg shadow-sm transition-all disabled:opacity-70 mt-4"
           >
-            {loading ? "Creating Account..." : "Register"}
+            {loading ? "Creating..." : "Register"}
           </button>
         </form>
 
-        {/* Footer */}
-        <div className="mt-6 text-center text-slate-600 text-sm font-medium">
+        {/* Footer Link */}
+        <div className="mt-6 text-center text-gray-600 text-[13px]">
           Already have an account?{" "}
           <span 
-            className="text-emerald-600 font-bold cursor-pointer hover:underline"
+            className="text-blue-500 cursor-pointer hover:underline"
             onClick={() => navigate("/login")}
           >
             Login

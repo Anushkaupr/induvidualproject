@@ -33,31 +33,23 @@ export default function ForgotPassword() {
 
   return (
     <div 
-      className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4" 
+      className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" 
       style={{ backgroundImage: "url('/bg.jpg')" }}
     >
-      {/* Overlay to make the background look more professional */}
-      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
-
-      <div className="relative w-full max-w-md bg-white/90 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl border border-white/20">
+      {/* Container - Matches the minimalist white card in your image */}
+      <div className="w-full max-w-[420px] bg-white/95 backdrop-blur-sm p-10 rounded-[1.5rem] shadow-xl mx-4">
         
-        {/* Icon & Title */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-200 mx-auto mb-4">
-            <i className="fas fa-key"></i>
-          </div>
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">Reset Password</h2>
-          <p className="text-slate-500 text-sm mt-2 font-medium">Verify your identity to update password</p>
-        </div>
+        {/* Title */}
+        <h2 className="text-2xl font-bold text-slate-800 text-center mb-8">Reset Password</h2>
 
-        <form onSubmit={handleReset} className="space-y-5">
+        <form onSubmit={handleReset} className="space-y-4">
+          
           {/* Email Field */}
-          <div className="space-y-2">
-            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Email Address</label>
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-slate-700 ml-1">Email Address</label>
             <input 
-              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
+              className="w-full px-4 py-3 bg-[#f8f9fa] border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition-all text-slate-600"
               type="email" 
-              placeholder="Enter your email"
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
@@ -65,11 +57,12 @@ export default function ForgotPassword() {
           </div>
           
           {/* DOB Field */}
-          <div className="space-y-2">
-            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">Verify Date of Birth</label>
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-slate-700 ml-1">Verify Date of Birth</label>
             <input 
-              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all font-semibold text-slate-700 uppercase"
+              className="w-full px-4 py-3 bg-[#f8f9fa] border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition-all text-slate-600"
               type="date" 
+              placeholder="dd-mm-yyyy"
               value={dob} 
               onChange={(e) => setDob(e.target.value)} 
               required 
@@ -77,34 +70,36 @@ export default function ForgotPassword() {
           </div>
 
           {/* New Password Field */}
-          <div className="space-y-2">
-            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">New Password</label>
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-slate-700 ml-1">New Password</label>
             <input 
-              className="w-full p-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all font-semibold text-slate-700 placeholder:text-slate-300"
+              className="w-full px-4 py-3 bg-[#f8f9fa] border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition-all text-slate-600"
               type="password" 
-              placeholder="••••••••"
               value={newPassword} 
               onChange={(e) => setNewPassword(e.target.value)} 
               required 
             />
           </div>
 
+          {/* Update Button */}
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] disabled:opacity-70"
+            className="w-full bg-[#1a73e8] hover:bg-blue-700 text-white py-3 rounded-lg font-bold text-lg shadow-md transition-all active:scale-[0.98] disabled:opacity-70 mt-4"
           >
             {loading ? "Processing..." : "Update Password"}
           </button>
         </form>
 
-        <button 
-          onClick={() => navigate("/login")}
-          className="w-full mt-6 text-indigo-600 font-bold text-sm hover:text-indigo-800 transition-colors flex items-center justify-center gap-2"
-        >
-          <i className="fas fa-arrow-left text-xs"></i>
-          Back to Login
-        </button>
+        {/* Back Link */}
+        <div className="mt-6 text-center">
+          <span 
+            onClick={() => navigate("/login")}
+            className="text-sm font-semibold text-blue-500 hover:underline cursor-pointer transition-colors"
+          >
+            Back to Login
+          </span>
+        </div>
       </div>
     </div>
   );

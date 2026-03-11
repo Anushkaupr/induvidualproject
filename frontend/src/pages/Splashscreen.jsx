@@ -13,37 +13,24 @@ export default function SplashScreen() {
   }, [navigate]);
 
   return (
-    <div className="h-screen w-full flex justify-center items-center bg-white dark:bg-slate-900 transition-colors duration-500">
+    <div className="h-screen w-full flex items-center justify-center bg-white">
       
-      {/* Container with a smooth entry animation */}
-      <div className="text-center animate-in fade-in zoom-in duration-1000 ease-out">
+      <div className="text-center">
         
-        {/* Logo with a slight pulse to show it's loading */}
+        {/* Logo */}
         <img
-          src="logo.png"
+          src="/logo.png"
           alt="Money Mate Logo"
-          className="w-[180px] h-auto mx-auto drop-shadow-md animate-pulse"
+          className="w-48 mx-auto mb-6"
         />
-        
-        {/* Text with premium styling */}
-        <div className="mt-5 text-2xl font-black text-slate-700 dark:text-white tracking-[2px] uppercase">
-          Money <span className="text-blue-600">Mate</span>
-        </div>
 
-        {/* Optional: Simple Loading Bar */}
-        <div className="mt-8 w-48 h-1 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto overflow-hidden">
-          <div className="h-full bg-blue-600 animate-[loading_2s_ease-in-out]"></div>
-        </div>
+       
+        <h1 className="text-3xl font-semibold text-gray-700 tracking-wide">
+          Money Mate
+        </h1>
+
       </div>
 
-      {/* Tailwind handles standard animations, but for custom progress bars, 
-          you can add this one-line global style if needed */}
-      <style>{`
-        @keyframes loading {
-          0% { width: 0%; }
-          100% { width: 100%; }
-        }
-      `}</style>
     </div>
   );
 }
