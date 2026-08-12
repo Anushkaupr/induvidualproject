@@ -11,7 +11,7 @@ const Expense = require("./models/Expense");
 const Wishlist = require("./models/Wishlist");
 
 app.use(cors({
-  origin: "https://moneymateproject.vercel.app",
+  origin: "https://moneymateproject-dzx3x7ake-moneymate1.vercel.app",
   credentials: true,
 }));
 app.use(express.json());
