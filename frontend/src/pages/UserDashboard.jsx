@@ -86,7 +86,7 @@ const translations = {
 function WishlistInsideCard({ language, wishes, fetchWishes }) {
   const [note, setNote] = useState("");
   const [file, setFile] = useState(null);
-  const API_BASE = "http://localhost:3000/api/wishlist";
+  const API_BASE = "https://induvidualproject-1.onrender.com/api/wishlist";
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -227,7 +227,7 @@ function Income({ language }) {
   const [field, setField] = useState("");
   const [amount, setAmount] = useState("");
   const [incomeList, setIncomeList] = useState([]);
-  const API_BASE = "http://localhost:3000/api/income";
+  const API_BASE = "https://induvidualproject-1.onrender.com/api/income";
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem("token");
@@ -326,7 +326,7 @@ function Saving({ language }) {
   const [field, setField] = useState("");
   const [amount, setAmount] = useState("");
   const [savingsList, setSavingsList] = useState([]);
-  const API_BASE = "http://localhost:3000/api/savings";
+  const API_BASE = "https://induvidualproject-1.onrender.com/api/savings";
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem("token");
@@ -425,7 +425,7 @@ function Expense({ language }) {
   const [field, setField] = useState("");
   const [amount, setAmount] = useState("");
   const [expensesList, setExpensesList] = useState([]);
-  const API_BASE = "http://localhost:3000/api/expenses";
+  const API_BASE = "https://induvidualproject-1.onrender.com/api/expenses";
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem("token");
@@ -544,7 +544,7 @@ export default function UserDashboard() {
   const fetchWishes = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/api/wishlist", {
+      const res = await axios.get("https://induvidualproject-1.onrender.com/api/wishlist", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data.success) setWishes(res.data.data);
@@ -560,9 +560,9 @@ export default function UserDashboard() {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       const [incRes, savRes, expRes] = await Promise.all([
-        fetch("http://localhost:3000/api/income", { headers }),
-        fetch("http://localhost:3000/api/savings", { headers }),
-        fetch("http://localhost:3000/api/expenses", { headers })
+        fetch("https://induvidualproject-1.onrender.com/api/income", { headers }),
+        fetch("https://induvidualproject-1.onrender.com/api/savings", { headers }),
+        fetch("https://induvidualproject-1.onrender.com/api/expenses", { headers })
       ]);
       const incData = await incRes.json();
       const savData = await savRes.json();

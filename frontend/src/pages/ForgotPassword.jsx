@@ -14,7 +14,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/api/users/reset-password-dob", {
+      const response = await axios.post("https://induvidualproject-1.onrender.com/api/users/reset-password-dob", {
         email,
         dob,
         newPassword,

@@ -5,7 +5,7 @@ function Expense({ language }) {
   const [amount, setAmount] = useState("");
   const [expensesList, setExpensesList] = useState([]);
 
-  const API_BASE = "http://localhost:3000/api/expenses";
+  const API_BASE = "https://induvidualproject-1.onrender.com/api/expenses";
 
 
   const getAuthHeaders = () => {

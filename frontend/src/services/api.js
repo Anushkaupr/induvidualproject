@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance
 const API = axios.create({
-  baseURL: "http://localhost:3000/api/users", 
+  baseURL: "https://induvidualproject-1.onrender.com/api/users", 
 });
 
 API.interceptors.request.use((req) => {

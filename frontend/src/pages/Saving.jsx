@@ -7,7 +7,7 @@ export default function Saving({ language = "en" }) {
   useEffect(() => {
     const fetchSavings = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/savings");
+        const res = await fetch("https://induvidualproject-1.onrender.com/api/savings");
         const data = await res.json();
         if (data.success) {
           setSavingsList(data.data);
